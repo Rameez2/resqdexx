@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Glory:ital,wght@0,100..800;1,100..800&display=swap');
+
+.bannerSection {
+    height: 400px;
+    background-image: url('https://images.pexels.com/photos/1378849/pexels-photo-1378849.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.bannerText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--white);
+    font-family: "Glory", serif;
+}
+
+.bannerText > h1 {
+    font-size: 58px;
+    margin-bottom: 10px;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    text-align: center;
+}
+
+.bannerText > p {
+    max-width: 490px;
+    font-size: 24px;
+    margin: 0 0 40px 0;
+    text-align: center;
+}
+
+/* Search */
+.animalOptions {
+    display: flex;
+    gap: 5px;
+    margin-left: 10px;
+}
+
+.animalOptions > span {
+    background-color: #FFF9F3;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.searchInputs {
+    background-color: white;
+    height: 40px;
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.searchInputs > input {
+    border: none;
+}
+
+/* --- RESPONSIVE DESIGN --- */
+
+/* For screens below 768px */
+@media (max-width: 768px) {
+    .bannerSection {
+        height: 350px; /* Reduce height */
+        padding: 20px;
+    }
+
+    .bannerText > h1 {
+        font-size: 42px; /* Adjust font size */
+    }
+
+    .bannerText > p {
+        font-size: 18px; /* Adjust font size */
+        max-width: 400px; /* Make text container smaller */
+    }
+
+    .animalOptions > span {
+        font-size: 14px; /* Adjust font size */
+    }
+
+    .searchInputs {
+        width: 100%; /* Ensure the search form spans the full width */
+        height: 45px; /* Increase height for better usability */
+    }
+
+    .searchInputs > input {
+        font-size: 14px; /* Adjust font size for smaller screens */
+        padding: 5px; /* Add padding for better touch interaction */
+        width: 100px;
+    }
+
+    .searchInputs button {
+        font-size: 14px; /* Adjust button font size */
+        padding: 5px 10px; /* Adjust button padding */
+    }
+}
+
+/* For screens below 480px (Mobile devices) */
+@media (max-width: 480px) {
+    .bannerSection {
+        height: 300px; /* Further reduce height */
+    }
+
+    .bannerText > h1 {
+        font-size: 36px; /* Adjust font size */
+        text-align: center;
+    }
+
+    .bannerText > p {
+        font-size: 16px; /* Adjust font size */
+        max-width: 350px; /* Make text container smaller */
+    }
+
+    .animalOptions {
+        gap: 8px; /* Adjust gap */
+        justify-content: center; /* Center the animal options */
+    }
+
+    .animalOptions > span {
+        font-size: 12px; /* Adjust font size */
+        padding: 4px; /* Adjust padding */
+    }
+
+    .searchInputs {
+        width: 100%; /* Ensure the search form spans the full width */
+        height: 50px; /* Increase height for better usability */
+    }
+
+    .searchInputs > input {
+        font-size: 12px;
+        padding: 8px;
+        width: 64px;
+    }
+
+    .searchInputs button {
+        font-size: 12px; /* Adjust button font size */
+        padding: 8px 12px; /* Adjust button padding */
+    }
+}

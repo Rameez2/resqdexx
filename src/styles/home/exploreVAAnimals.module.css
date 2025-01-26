@@ -1,0 +1,29 @@
+.exploreContainer{
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    background-color: #faf6f2;
+}
+.exploreContainer > a {
+    align-self: center;
+}
+.exploreCategories {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.exploreCategory > img{
+    width: 65px;
+    height: 65px;
+}
+.exploreCategory { 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.exploreCategory > p  {
+    margin: 0;
+}

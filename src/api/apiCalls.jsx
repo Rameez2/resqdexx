@@ -38,12 +38,14 @@ export const registerUser = async (name, email, password, role) => {
 
 export const loginUserWithEmail = async (email, password) => {
     const response = await account.createEmailPasswordSession(email, password);
-    console.log(response); // Success
+    // console.log(response); // Success
+    return response;
 };
 
 
 export const logout = async () => {
-    await account.deleteSession('current'); // Deletes the current session
+    // console.log('oputingg start');
+    return await account.deleteSession('current'); // Deletes the current session
     // Optionally, redirect user to the login page
-    window.location.href = "/login";
+    // window.location.href = "/login";
 };

@@ -47,7 +47,16 @@ body {
   border: 1px solid var(--primary);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* ARROW ICON */
+.arrow-icon{
+  border: 1px solid #E17716;
+  padding: 10px;
+  border-radius: 100%;
+  font-size: 25px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.arrow-icon:hover {
+  background-color: #E17716;
+  color: white;
 }

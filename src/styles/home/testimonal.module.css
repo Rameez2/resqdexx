@@ -1,0 +1,33 @@
+.testimonialsList{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 20px;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+.testimonialsCard {
+    height: 240px;
+    width: 412px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 20px;
+    margin-top: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF6F1;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.testimonialsCard > img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: -50px;
+}
+.testimonialsCard > span {
+    color: grey;
+}

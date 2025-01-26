@@ -2,12 +2,12 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserProvider,useUser } from "./context/userContext";
 
-import Home from "./pages/Home";
-import About from "./pages/About";
+import Home from "./routes/Home";
+import About from "./routes/About";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Register from "./routes/Register";
+import Login from "./routes/Login";
 
 const App = () => {
   return (

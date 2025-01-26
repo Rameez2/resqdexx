@@ -3,6 +3,9 @@
     justify-content: space-around;
     background-color: var(--white);
     align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+    gap: 10px;
 }
 
 .navLogo {
@@ -16,6 +19,8 @@
 .navLinks{
     display: flex;
     gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .navLinks > a {
@@ -41,12 +46,14 @@
     display: flex;
     justify-content: center;
     gap: 25px;
+    flex-wrap: wrap;
 }
 
 .navBottomLinks{
     display: flex;
     justify-content: center;
     gap: 35px;
+    flex-wrap: wrap;
 }
 .navBottomLinks > select {
     background-color: transparent;

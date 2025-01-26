@@ -2,11 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../styles/nav.module.css';
 import { useUser } from '../context/userContext';
-import { logout } from '../api/apiCalls';
 
 const Nav = () => {
 
-    let {user} = useUser();
+    let {user,logout} = useUser();
 
     async function handleLogOut() {
         try {
@@ -18,7 +17,7 @@ const Nav = () => {
     }
 
     return (
-    <nav style={{"backgroundColor":"red"}}>
+    <nav>
         <div className={styles.navTop}>
             <div className={styles.navLogo}>
                 <img src="https://i0.wp.com/onegroupnetwork.com/wp-content/uploads/2020/09/dummy-logo-5b.png" alt="" />

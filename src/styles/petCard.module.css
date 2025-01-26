@@ -1,0 +1,68 @@
+.petBox{
+    min-width: 309px;
+    min-height: 348px;
+    overflow: hidden;
+    border-radius: 5px;
+    position: relative;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.petImage{
+    width: 100%;
+    height: 236px;
+}.petImage > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+.petData{
+    
+}
+
+.petData > h2,p {
+    margin: 0;
+    font-family: sans-serif;
+}
+.petData {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+.petData > h2 {
+    font-size: 28px;
+}
+
+.petData > p {
+    font-size: 18px;
+}
+/* FAV */
+.heartIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 25px;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.heartIcon:hover {
+    transform: scale(1.05);
+}
+/* ARROW */
+
+.arrowIcon {
+    border: 1px solid #E17716;
+    padding: 10px;
+    border-radius: 100%;
+    font-size: 25px;
+    transform: rotate(45deg);
+    cursor: pointer;
+    transition: 0.5s;
+}
+.arrowIcon:hover {
+    background-color: #E17716;
+    color: white;
+    transform: rotate(0deg);
+}
