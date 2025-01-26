@@ -1,16 +1,19 @@
-/* Styling for the scrollable container */
-.scrollContainer {
-    display: flex;
-    gap: 30px;
-    justify-content: start;
-    overflow-x: scroll;
-    padding: 25px 10px;
-    scrollbar-width: none;
-    padding-left: 25px;
+.SuccessStories{
+    padding-bottom: 50px;
 }
-
-.scrollContainer::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and Edge */
+.storyContainer {
+    display: flex;
+    gap: 50px;
+    padding: 0 40px;
+}
+.storyImage{
+    min-width: 300px;
+    height: 250px;
+}
+.storyImage > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Styling for arrow icons */
@@ -31,4 +34,9 @@
 .arrowIcon:hover {
     transform: scale(1.2); /* Enlarge the arrow on hover */
 }
-/*  */
+
+@media (max-width: 700px) {
+    .storyContainer{
+        flex-wrap: wrap;
+    }
+}

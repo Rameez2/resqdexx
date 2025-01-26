@@ -1,0 +1,31 @@
+
+
+.adoptionCards{
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.adoptCard {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    width: 300px;
+    background-color: #ffeade;
+    height: 200px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
+.adoptCard > i {
+    background-color: white;
+    color: orange;
+    padding: 15px;
+    font-size: 30px;
+    border-radius: 50%;
+}
+.adoptCard > p {
+    text-align: center;
+}
