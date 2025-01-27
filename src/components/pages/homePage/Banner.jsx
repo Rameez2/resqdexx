@@ -18,7 +18,7 @@ const Banner = () => {
                     <input type="text" name='breed' placeholder='Breed' />
                     <input type="number" name='age' placeholder='Age' />
                     <input type="text" name='location' placeholder='Location' />
-                    <button type='submit' className='primary-btn'><i class="fa-solid fa-magnifying-glass"></i> Find Pet</button>
+                    <button type='submit' className='primary-btn'><i className="fa-solid fa-magnifying-glass"></i> Find Pet</button>
                 </form>
             </div>
         </div>

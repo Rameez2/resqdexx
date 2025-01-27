@@ -11,10 +11,10 @@ const BestOptions = () => {
                 <h1>Best Option For Adoption</h1>
                 <p>Our mission is to simplify the adoption process, raise awareness about animal rescue, and create loving forever homes for animals worldwide</p>
                 <div className={styles.bestOpt}>
-                    <span><i class="fa-solid fa-check"></i> Hassle</span>
-                    <span><i class="fa-solid fa-check"></i> Home Delivery</span>
-                    <span><i class="fa-solid fa-check"></i> Tailored Choices</span>
-                    <span><i class="fa-solid fa-check"></i> World Wide</span>
+                    <span><i className="fa-solid fa-check"></i> Hassle</span>
+                    <span><i className="fa-solid fa-check"></i> Home Delivery</span>
+                    <span><i className="fa-solid fa-check"></i> Tailored Choices</span>
+                    <span><i className="fa-solid fa-check"></i> World Wide</span>
                 </div>
             </div>  
         </div>

@@ -20,7 +20,7 @@ const ExploreVCAnimals = () => {
                     <p>other Animals</p>
                 </div>
             </div>
-            <Link to=""><button className='primary-btn'>Explore All Categories <i class="fa-solid fa-arrow-right"></i></button></Link>
+            <Link to=""><button className='primary-btn'>Explore All Categories <i className="fa-solid fa-arrow-right"></i></button></Link>
         </div>
     );
 }

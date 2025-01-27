@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../styles/nav.module.css';
 import { useUser } from '../context/userContext';
+import { getCurrentUserData, uploadPet,getMyPets, deleteMyPet, updatePetById } from '../api/apiCalls';
 
 const Nav = () => {
 
@@ -16,8 +17,38 @@ const Nav = () => {
         }
     }
 
+    const petData = {
+        name: "Luna",
+        breed: "Maine Coon",
+        age: 4,
+        size: "Large",
+        temperament: "Calm",
+        location: "San Francisco",
+        bio: "A playful Maine Coon cat that loves to explore and cuddle.",
+        photos: ["photo1_url", "photo2_url", "photo3_url"],
+        category: "cat"  // Category set to 'cat'
+      };
+      
+
+      const petId = "67975aa200038644a50f"; // Replace with the pet's document ID
+      const updatedData = {
+        name: "by rehan2",       // Example of fields to update
+        age: 5,
+        bio: "Updated bio of the pet.",
+      };
+
     return (
     <nav>
+        <div className="crudActions">
+            <button onClick={getCurrentUserData}>GET CURRENT USER</button>
+            <button onClick={() => {uploadPet(petData)}}>UPLOAD PET</button>
+            <button onClick={getMyPets}>SEE MY PETS</button>
+            <button onClick={() => deleteMyPet("6797525b000991e79ff4")}>DELETE MY PET</button>
+            <button onClick={() => updatePetById(petId,updatedData)}>UPDATE MY PET</button>
+
+        </div>
+
+
         <div className={styles.navTop}>
             <div className={styles.navLogo}>
                 <img src="https://i0.wp.com/onegroupnetwork.com/wp-content/uploads/2020/09/dummy-logo-5b.png" alt="" />
@@ -29,7 +60,7 @@ const Nav = () => {
                 <Link to="/contact">Contact Us</Link>
             </div>
             <div className={styles.navButtons}>
-            {user? <button style={{"backgroundColor":"blue","color":"white"}} onClick={handleLogOut}>Log Out</button> :
+            {user? <button className='primary-btn' style={{"backgroundColor":"red","color":"white"}} onClick={handleLogOut}>Log Out</button> :
             <>
                 <Link to="/login">
                     <button className='primary-btn'>Login</button>
@@ -75,8 +106,9 @@ const Nav = () => {
 
             </div>
             <div className="navBottomBtn">
-            <button className='primary-btn' style={{"color":"white","border":"1px solid white",}} >Join as organization</button>
-
+            <Link to="/register?role=organization">
+                <button className='primary-btn' style={{"color":"white","border":"1px solid white",}} >Join as organization</button>
+            </Link>
             </div>
         </div>
     </nav>

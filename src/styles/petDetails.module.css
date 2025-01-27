@@ -1,0 +1,61 @@
+.petDetails{
+    display: flex;
+    gap: 60px;
+    padding: 70px 20px;
+    justify-content: center;
+    background: linear-gradient(90deg, rgba(252,233,217,1) 0%, rgba(250,244,240,1) 31%, rgba(252,221,194,1) 85%);
+}
+/* .petDetailsLeft{
+
+} */
+.petDetailsContent{
+    margin-bottom: 60px;
+}
+
+.petDetailsContent > p {
+    text-align: center;
+}
+.petDetailsContent > p > strong {
+    color: orange;
+}
+
+.petDetailsBasicInfo{
+
+}
+
+.petDetailsCard{
+    background-color: #FFFCFA;
+    width: 290px;
+    height: 190px;
+    border-radius: 15px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+
+.petDetailsRight > img {
+    object-fit: cover;
+    width: 300px;
+    height: 260px;
+    border-radius: 24% 70% 61% 41% / 18% 54% 49% 82%;
+}
+
+/* For screens below 780px */
+@media (max-width: 780px) {
+.petDetailsRight > img {
+    width: 200px;
+    height: 160px;
+}
+}
+/* For screens below 480px */
+@media (max-width: 700px) {
+    .petDetails {
+        flex-wrap: wrap;
+        justify-content: center;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+}

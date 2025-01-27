@@ -1,0 +1,108 @@
+.searchListContainer{
+    background-color: #faf4f0;
+    padding: 20px;
+    display: flex;
+    gap: 50px;
+}
+.filters{
+    width: fit-content;
+    height: fit-content;
+    padding: 25px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+.filters > h2 {
+    margin: 0;
+    font-size: 40px;
+}
+
+.filtersContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filterGroup > label {
+    font-size: 25px;
+}
+
+.filterGroup select,
+.sortBy select {
+    width: 245px;
+    height: 30px;
+}
+
+/* LISTING SIDE */
+/* .listingSide {
+} */
+.sortBy{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.sortBy > span {
+    color: orange;
+}
+
+
+.petsListing{
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px 20px 20px 0px;
+}
+
+/* For screens below 950px */
+@media (max-width: 950px) {
+    .searchListContainer {
+        flex-wrap: wrap;
+    }
+    .listingSide > h1{
+        text-align: center;
+        margin: 0;
+    }
+    .sortBy {
+        align-items: center;
+    }
+
+    .filters{
+        width: fit-content;
+        padding: 10px;
+        border-radius: 20px;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: fit-content;
+        padding-bottom: 25px;
+    }
+    .filtersContainer {
+        display: flex;
+        gap: 10px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .petsListing {
+        justify-content: center;
+        padding-left: 20px;
+    }
+}
+/* For screens below 480px */
+@media (max-width: 480px) {
+    .filterGroup select,
+    .sortBy select {
+        width: 150px;
+        height: 30px;
+    }
+    .filterGroup > label {
+        font-size: 15px;
+    }
+}

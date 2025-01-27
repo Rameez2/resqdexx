@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { registerUser } from '../api/apiCalls';
+import { useLocation } from 'react-router-dom';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -8,12 +9,31 @@ const Register = () => {
         password: '',
     });
 
+    const [userRole, setUserRole] = useState('adopter');  // Default to "Adopter"
+
+    // Get the role from the URL query parameters
+    const location = useLocation();
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const roleParam = params.get('role');
+        if (roleParam === 'organization') {
+            setUserRole('organization');
+        } else {
+            setUserRole('adopter');
+        }
+    }, [location]);
+
+    // Handle change in select dropdown
+    const handleRoleChange = (event) => {
+        setUserRole(event.target.value);
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    //   
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -22,7 +42,7 @@ const Register = () => {
         setLoading(true); // Start loading
         setError(null); // Clear previous errors
         try {
-            const result = await registerUser(formData.name, formData.email, formData.password, 'adopter');
+            const result = await registerUser(formData.name, formData.email, formData.password, userRole);
         } catch (err) {
             setError(err.message); // Handle error
         } finally {
@@ -63,6 +83,19 @@ const Register = () => {
                         onChange={handleChange}
                         style={styles.input}
                     />
+                </label>
+                <label style={styles.label}>
+                    Role:
+                    <select
+                        className={styles.navSelect}
+                        name="role"
+                        id="role"
+                        value={userRole}  // Set the value to match the state
+                        onChange={handleRoleChange}  // Update state on change
+                    >
+                        <option value="adopter">Adopter</option>
+                        <option value="organization">Organization</option>
+                    </select>
                 </label>
                 <div>
                     <button style={styles.button} type='submit' disabled={loading}>
