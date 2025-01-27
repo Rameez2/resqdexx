@@ -39,14 +39,14 @@ const Nav = () => {
 
     return (
     <nav>
-        <div className="crudActions">
+        {/* <div className="crudActions">
             <button onClick={getCurrentUserData}>GET CURRENT USER</button>
             <button onClick={() => {uploadPet(petData)}}>UPLOAD PET</button>
             <button onClick={getMyPets}>SEE MY PETS</button>
             <button onClick={() => deleteMyPet("6797525b000991e79ff4")}>DELETE MY PET</button>
             <button onClick={() => updatePetById(petId,updatedData)}>UPDATE MY PET</button>
 
-        </div>
+        </div> */}
 
 
         <div className={styles.navTop}>
