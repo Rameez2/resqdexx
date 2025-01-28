@@ -1,7 +1,7 @@
 import { loginUserWithEmail, logout } from '../api/apiCalls';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { useUser } from '../context/userContext';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     // State management for email and password
@@ -9,7 +9,14 @@ const Login = () => {
     const [password, setPassword] = useState('');
     let navigate = useNavigate();
 
-    const { login } = useUser();
+    const { user, login } = useUser(); // Get user and login function from context
+
+    // If the user is already logged in, navigate to the home page
+    useEffect(() => {
+        if (user) {
+            navigate('/'); // Redirect to home if user is already logged in
+        }
+    }, [user, navigate]);
 
     // Handle login with email and password
     async function handleLogin(e) {
@@ -17,8 +24,8 @@ const Login = () => {
         try {
             let response = await loginUserWithEmail(email, password);
             console.log(response);
-            login(response);
-            navigate("/")
+            login();
+            navigate("/");
         } catch (error) {
             console.log(error);
         }

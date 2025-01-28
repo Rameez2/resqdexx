@@ -1,13 +1,10 @@
-.petDetails{
+/* .petDetails{
     display: flex;
     gap: 60px;
     padding: 70px 20px;
     justify-content: center;
     background: linear-gradient(90deg, rgba(252,233,217,1) 0%, rgba(250,244,240,1) 31%, rgba(252,221,194,1) 85%);
 }
-/* .petDetailsLeft{
-
-} */
 .petDetailsContent{
     margin-bottom: 60px;
 }
@@ -40,17 +37,17 @@
     width: 300px;
     height: 260px;
     border-radius: 24% 70% 61% 41% / 18% 54% 49% 82%;
-}
+} */
 
 /* For screens below 780px */
-@media (max-width: 780px) {
+/* @media (max-width: 780px) {
 .petDetailsRight > img {
     width: 200px;
     height: 160px;
 }
-}
+} */
 /* For screens below 480px */
-@media (max-width: 700px) {
+/* @media (max-width: 700px) {
     .petDetails {
         flex-wrap: wrap;
         justify-content: center;
@@ -58,4 +55,206 @@
         align-items: center;
     }
 
+} */
+
+
+.petDetails{
+    gap: 60px;
+    padding: 70px 20px;
+    display: flex;
+    background: linear-gradient(90deg, rgba(252,233,217,1) 0%, rgba(250,244,240,1) 31%, rgba(252,221,194,1) 85%);
+    flex-direction: column;
+    align-items: center;
+}
+
+.basicInfo{
+    display: flex;
+    gap: 50px;
+}
+
+.imagesContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.mainImage {
+    position: relative;
+    width: 580px;
+    height: 380px;
+}
+
+.mainImage > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.mainImage > button {
+    position: absolute;
+}
+.mainImage > .arrowBtn:nth-child(1) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0px;
+}
+.mainImage > .arrowBtn:nth-child(2) {
+    right: 0px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.arrowBtn > button{
+    background-color: transparent;
+    border: 2px solid black;
+    border-radius: 50%;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.arrowBtn > button:hover {
+        color: white;
+}
+
+.imageList{
+    display: flex;
+    gap: 20px;
+    background-color: #faf4f0;
+    width: fit-content;
+    padding: 10px 35px;
+    border-radius: 20px;
+    align-self: center;
+}
+.imageList > img {
+    width: 150px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* BASIC INFO CARD */
+
+.basicInfoCard{
+    position: relative;
+    background-color: #fff6f0;
+    padding: 10px;
+    padding-top: 55px;
+    padding-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: space-between;
+    border-radius: 20px;
+    height: 260px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+    min-width: 250px;
+    margin-top: 50px;
+}
+
+.basicInfoCard > img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid #e07816;
+    
+}
+
+.basicInfoCard > h3 {
+    margin: 0;
+    text-align: center;
+}
+.infoBelow {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.infoBelow > div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.belowInfoContent > span{
+    color: grey;
+}
+.belowInfoContent > h6{
+    margin: 0;
+}
+.infoButtons{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: -webkit-fill-available;
+    align-items: center;
+}
+.infoButtons > button {
+    width: 100%;
+    padding: 10px 0;
+}
+
+/* MORE INFO */
+
+.moreInfo{
+    display: flex;
+    gap: 50px;
+}
+/* LEFT */
+
+.moreInfoLeft{
+    border-radius: 20px;
+    background-color: #fcf3ed;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 7;
+}
+.moreInfoLeft > hr {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 15px 30px 0px 30px;
+}
+.generalInfo h1 {
+    margin: 0;
+}
+.generalInfo > div {
+    gap: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.generalInfo > div > div > h1 {
+    color: orange;
+}
+.generalInfo > div > div > h4 {
+    text-align: center;
+}
+
+.healthInfo > ul{
+    display: flex;
+    gap: 30px;
+}
+/* RIGHT */
+.moreInfoRight{
+    flex: 3;
+    border-radius: 20px;
+    background-color: #fcf3ed;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* RESCUE STORY */
+.rescueStory{
+    border-radius: 20px;
+    background-color: #fcf3ed;
+    padding: 20px;
 }

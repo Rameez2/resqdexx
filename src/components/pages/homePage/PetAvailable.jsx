@@ -1,9 +1,14 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState,useEffect } from 'react';
 import PetCard from './PetCard';
 import styles from '../../../styles/home/petAvailable.module.css';
+import { getAllPets } from '../../../api/apiCalls';
+import Loader1 from '../../loaders/Loader1';
 
 const PetAvailable = () => {
     const scrollContainerRef = useRef(null);
+    const [loading,setLoading] = useState(true);
+    const [error,setError] = useState(null);
+    const [pets,setPets] = useState(null);
 
     const scroll = (direction) => {
         if (scrollContainerRef.current) {
@@ -16,8 +21,25 @@ const PetAvailable = () => {
         }
     };
 
+    // console.log(getAllPets());
+    
+    useEffect(() => {
+        (async () => {
+            try {
+                const petsResponse = await getAllPets();
+                setPets(petsResponse);
+                setLoading(false);
+            } catch (error) {
+                console.log('Error while fetching pets',error.message);
+                setLoading(false);
+                setError(error.message);
+            }
+        })();
+    }, []);
+
+
     return (
-        <div>
+        <div style={{minHeight:"511px"}}>
             <h1 style={{ color: 'orange', textAlign: 'center' }}>Pets Available For Adoption</h1>
             <div className={styles.scrollIcons}>
                 <i
@@ -33,12 +55,19 @@ const PetAvailable = () => {
                 ref={scrollContainerRef}
                 className={styles.scrollContainer}
             >
-                <PetCard petName="Liza" breedName="persian" />
-                <PetCard petName="Liza" breedName="persian" />
-                <PetCard petName="Liza" breedName="persian" />
-                <PetCard petName="Liza" breedName="persian" />
-                <PetCard petName="Liza" breedName="persian" />
-                <PetCard petName="Liza" breedName="persian" />
+            {loading ? <Loader1/>: error ? <h1>Error : {error}</h1> : 
+            <>
+            {pets ? pets.map((pet, index) => (
+                            <PetCard
+                                key={index}
+                                petName={pet.name}
+                                breedName={pet.breed}
+                                petId={pet.$id}
+                            />
+                        )):
+                        <h1>No pets Avaivalbe at the momemt!</h1>}
+            </>
+            }
             </div>
         </div>
     );

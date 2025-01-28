@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { registerUser } from '../api/apiCalls';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useUser } from '../context/userContext'; // Import the useUser hook
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -10,9 +11,20 @@ const Register = () => {
     });
 
     const [userRole, setUserRole] = useState('adopter');  // Default to "Adopter"
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     // Get the role from the URL query parameters
     const location = useLocation();
+    const navigate = useNavigate();
+    const { user } = useUser(); // Access the user from context
+
+    // Redirect to homepage if the user is already logged in
+    useEffect(() => {
+        if (user) {
+            navigate('/'); // Redirect to homepage if user is logged in
+        }
+    }, [user, navigate]);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -34,15 +46,14 @@ const Register = () => {
         setFormData({ ...formData, [name]: value });
     };
 
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
     const handleRegister = async (e) => {
         e.preventDefault();
         setLoading(true); // Start loading
         setError(null); // Clear previous errors
         try {
             const result = await registerUser(formData.name, formData.email, formData.password, userRole);
+            // Redirect user after successful registration
+            navigate('/'); // Redirect to homepage (or any other page you want after registration)
         } catch (err) {
             setError(err.message); // Handle error
         } finally {

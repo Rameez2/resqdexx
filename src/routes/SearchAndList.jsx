@@ -1,7 +1,32 @@
+import { useEffect, useState } from 'react';
+import { getAllPets } from '../api/apiCalls';
 import PetCard from '../components/pages/homePage/PetCard';
 import styles from '../styles/searchAndList.module.css';
-
+import { useUser } from '../context/userContext';
 const SearchAndList = () => {
+    
+    const [loading,setLoading] = useState(true);
+    const [error,setError] = useState(null);
+    const [pets,setPets] = useState(null);
+    const {user} = useUser();
+
+    console.log('context usre',user);
+    
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const petsResponse = await getAllPets();
+                setPets(petsResponse);
+                setLoading(false);
+            } catch (error) {
+                console.log('Error while fetching pets',error.message);
+                setLoading(false);
+                setError(error.message);
+            }
+        })();
+    }, []);
+
     return (
         <div className={styles.searchListContainer}>
             <div className={styles.filters}>
@@ -63,12 +88,22 @@ const SearchAndList = () => {
                     </select>
                 </div>
                 <div className={styles.petsListing}>
-                    <PetCard petName="Liza" breedName="persian" />
-                    <PetCard petName="Liza" breedName="persian" />
-                    <PetCard petName="Liza" breedName="persian" />
-                    <PetCard petName="Liza" breedName="persian" />
-                    <PetCard petName="Liza" breedName="persian" />
 
+            {loading ? <h1>Loading....</h1> : error ? <h1>Error : {error}</h1> : 
+            <>
+            {pets ? pets.map((pet, index) => (
+                            <PetCard
+                                key={index}
+                                petName={pet.name}
+                                breedName={pet.breed}
+                                petId={pet.$id}
+                                isFav={true}
+
+                            />
+                        )):
+                        <h1>No pets Avaivalbe at the momemt!</h1>}
+            </>
+            }
                 </div>
             </div>
         </div>

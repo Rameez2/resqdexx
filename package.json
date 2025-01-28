@@ -2,6 +2,8 @@
   "name": "resqdexx",
   "version": "0.1.0",
   "private": true,
+  "main": "index.js",
+  "proxy": "https://67979ab105122d615160.appwrite.global/",
   "dependencies": {
     "appwrite": "^16.1.0",
     "cra-template": "1.2.0",

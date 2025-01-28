@@ -38,6 +38,9 @@
 .petData > p {
     font-size: 18px;
 }
+.petData > a {
+    color: black;
+}
 /* FAV */
 .heartIcon {
     position: absolute;
