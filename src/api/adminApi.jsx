@@ -9,6 +9,7 @@ export const getAllUsers = async () => {
     return response.documents;
 }
 
+
 export const approveOrganization = async (id,status) => {
         // Fetch the user document by its ID
         const response = await databases.getDocument(
@@ -31,4 +32,32 @@ export const approveOrganization = async (id,status) => {
       
           // Return the updated document
           return updatedResponse;
+}
+
+
+export const makeAdmin = async (id) => {
+  try {
+    
+    // Fetch the user document by its ID
+    const response = await databases.getDocument(
+        process.env.REACT_APP_DB_ID,  // Database ID
+        process.env.REACT_APP_USERS_ID, // Users Collection ID
+        id  // The unique ID of the user
+      );
+      // Update the status field to 'approved'
+      const updatedResponse = await databases.updateDocument(
+        process.env.REACT_APP_DB_ID,  // Database ID
+        process.env.REACT_APP_USERS_ID, // Users Collection ID
+        id, // The unique ID of the user
+        {
+          isAdmin:!response.isAdmin  // New status value
+        }
+      );
+      alert('Admin succes!')
+      // Return the updated document
+      return updatedResponse;
+  } catch (error) { 
+      console.log('error at admin change:',error.message);
+      
+  }
 }

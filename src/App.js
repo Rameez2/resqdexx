@@ -29,6 +29,22 @@ const ProtectedRoute = ({ element, redirectTo }) => {
   return element; // Render the protected route if user exists
 };
 
+
+// AdminProtectedRoute component
+const AdminProtectedRoute = ({ element, redirectTo }) => {
+  const { user, loading } = useUser(); // Get the user and loading state from context
+
+  if (loading) {
+    return <div>Loading...</div>;  // Show a loading spinner or placeholder while loading
+  }
+
+  if (!user || !user.isAdmin) {
+    return <Navigate to={redirectTo} />; // Redirect to login if user is not an admin
+  }
+
+  return element; // Render the protected route if user is an admin
+};
+
 const App = () => {
   return (
     <UserProvider>
@@ -50,12 +66,15 @@ const App = () => {
               <ProtectedRoute element={<Profile />} redirectTo="/login" />
             }
           />
-                  <Route
+
+          {/* Admin Route - Only accessible by admin users */}
+          <Route
             path="/admin-panel"
             element={
-              <ProtectedRoute element={<AdminPanle />} redirectTo="/login" />
+              <AdminProtectedRoute element={<AdminPanle />} redirectTo="/login" />
             }
           />
+
       </Routes>
       <Footer/>
     </Router>

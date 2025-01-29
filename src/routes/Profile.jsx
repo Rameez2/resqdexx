@@ -3,10 +3,13 @@ import { getCurrentUserData, uploadPet, getMyPets, deleteMyPet, updatePetById } 
 import MyPets from '../components/pages/profile/MyPets';
 import { Link } from 'react-router-dom';
 import Loader1 from '../components/loaders/Loader1';
+import { useUser } from '../context/userContext';
 
 const Profile = () => {
     const [userData, setUserData] = useState(null);
     const [loading,setLoading] = useState(true);
+
+    const {user} = useUser();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -22,27 +25,6 @@ const Profile = () => {
     
         fetchUserData(); // Call the async function
     }, []); // Empty dependency array ensures this runs only once when the component mounts
-    
-
-    // const animals = [
-    //     {
-    //         name: "Luna",
-    //         age: 3,
-    //         category: "cat",
-    //         breed: "Siberian",
-    //         size: "Large",
-    //         temperament: "Friendly",
-    //         location: "Los Angeles",
-    //         bio: "A curious Siberian cat that enjoys playtime and relaxing by the window.",
-    //         photos: ["photo1_url", "photo2_url", "photo3_url"]
-    //     }
-    //   };    
-
-
-    function customUpdate(data) {
-        console.log('custom data:',data);
-
-    }
 
     return (
         <div>
@@ -52,7 +34,7 @@ const Profile = () => {
                     <>
                         <h1>Welcome, {userData.name}!</h1> 
                         <p>email: {userData.email}</p> 
-                        <p>verify status: {userData.verified ? <span style={{"color":"green"}}>Verified</span>:<span style={{"color":"red"}}>Not verified</span>}</p> 
+                        {/* <p>verify status: {userData.verified ? <span style={{"color":"green"}}>Verified</span>:<span style={{"color":"red"}}>Not verified</span>}</p>  */}
                         <p>role: {userData.role}</p> 
                     </>
                 ) : (
@@ -61,7 +43,7 @@ const Profile = () => {
             </div>
 
             <div className="crudActions">
-                {loading ? <Loader1/>: userData && userData.role === "organization" ? 
+                {loading ? <Loader1/>: user && user.role === "Organization" ? 
                 <>
                     <Link to="/pet-form" state={{ formType: 'upload'}}><button className='primary-btn'>Upload Pet</button></Link>
                     <MyPets/>

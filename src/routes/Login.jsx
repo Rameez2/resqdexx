@@ -23,7 +23,8 @@ const Login = () => {
         e.preventDefault();
         try {
             let response = await loginUserWithEmail(email, password);
-            console.log(response);
+            console.log('login res',response.$id);
+            // localStorage.setItem('sessionTok')
             login();
             navigate("/");
         } catch (error) {

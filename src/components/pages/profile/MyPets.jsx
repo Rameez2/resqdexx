@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { deleteMyPet, getMyPets } from "../../../api/apiCalls";
 import { Link } from "react-router-dom";
+import { deleteMyPet, getMyPets } from "../../../api/petsApi";
+
 const MyPets = () => {
 
     const [pets,setPets] = useState();

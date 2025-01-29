@@ -30,38 +30,17 @@ const PetDetails = () => {
     if (error) return <h1>NO PET FOUND</h1>;
 
     return (
-        // <div className={styles.petDetails}>
-        //     <div className={styles.petDetailsLeft}>
-        //         <div className={styles.petDetailsContent}>
-        //             <h1>Meet {petInfo.name}</h1>
-        //             <p>
-        //                 <strong>{petInfo.name}</strong> is a friendly {petInfo.age}-year-old {petInfo.breed} with a playful personality. {petInfo.description}
-        //             </p>
-        //         </div>
-        //         <div className={styles.petDetailsBasicInfo}>
-        //             <h1>Basic Info</h1>
-        //             <div className={styles.petDetailsCard}>
-        //                 <span><strong>Name:</strong> {petInfo.name}</span>
-        //                 <span><strong>Age:</strong> {petInfo.age}</span>
-        //                 <span><strong>Breed:</strong> {petInfo.breed}</span>
-        //                 <span><strong>Gender:</strong> {petInfo.gender}</span>
-        //             </div>
-        //         </div>
-        //     </div>
-        //     <div className={styles.petDetailsRight}>
-        //         <img src={petInfo.imageUrl || '/static_images/card-dog.jpeg'} alt={petInfo.name} />
-        //     </div>
-        // </div>
+
 
         <div className={styles.petDetails}>
             <div className={styles.basicInfo}>
                 <div className={styles.imagesContainer}>
                     <div className={styles.mainImage}>
                         <div className={styles.arrowBtn}>
-                            <button><i class="fa-solid fa-chevron-left"></i></button>
+                            <button><i className="fa-solid fa-chevron-left"></i></button>
                         </div>
                         <div className={styles.arrowBtn}>
-                            <button><i class="fa-solid fa-chevron-right"></i></button>
+                            <button><i className="fa-solid fa-chevron-right"></i></button>
                         </div>
                         <img src="/static_images/card-dog.jpeg" alt="" />
                     </div>
@@ -77,14 +56,14 @@ const PetDetails = () => {
                     <h3>Considering {petInfo.name ? petInfo.name : ''} for adoption?</h3>
                     <div className={styles.infoBelow}>
                         <div>
-                            <i class="fa-solid fa-location-dot"></i>
+                            <i className="fa-solid fa-location-dot"></i>
                             <div className={styles.belowInfoContent}>
                                 <span>Location</span>
                                 <h6>{petInfo.location ? petInfo.location : ''}</h6>
                             </div>
                         </div>
                         <div>
-                            <i class="fa-solid fa-phone"></i>
+                            <i className="fa-solid fa-phone"></i>
                             <div className={styles.belowInfoContent}>
                                 <span>Contact</span>
                                 <h6>{petInfo.contact ? petInfo.contact : ''}</h6>

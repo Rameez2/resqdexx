@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { updatePetById, uploadPet } from '../../../api/apiCalls';
+import { updatePetById, uploadPet } from '../../../api/petsApi';
 import { useLocation } from 'react-router-dom';
 
 const PetForm = () => {
   const [petInfo, setPetInfo] = useState({
     name: 'deummm',
     age: 1,
-    category: 'others', // Default category
+    category: 'Other', // Default category
     breed: 'asdasd',
     size: 'Small',
     temperament: 'Calm',
+    contact: '+92 305106514',
+    gender: 'Male',
     location: 'Peshawar',
     bio: 'this is',
-    photos: [], // You can later extend this to handle file inputs for photos
+    main_image:'main_img_url',
+    images: [], // You can later extend this to handle file inputs for photos
   });
 
   const location = useLocation();
@@ -36,8 +39,6 @@ const PetForm = () => {
     }
   };
   
-  console.log(formType);
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,7 +50,7 @@ const PetForm = () => {
       setPetInfo({
         name: '',
         age: 1,
-        category: 'others',
+        category: 'Other',
         breed: '',
         size: '',
         temperament: '',

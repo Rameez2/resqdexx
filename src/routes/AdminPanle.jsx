@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/adminPanel.module.css';
-import { approveOrganization, getAllUsers } from '../api/adminApi';
+import { approveOrganization, getAllUsers, makeAdmin } from '../api/adminApi';
+import { useUser } from '../context/userContext';
 
 const AdminPanle = () => {
 
     const [orgDetails,setOrgDetails] = useState(null);
+    const [loading,setLoading] = useState(true);
     const [filter,setFilter] = useState("all");
+
+    const {user} = useUser();
 
     useEffect(() => {
         (async () => {
@@ -31,6 +35,7 @@ const AdminPanle = () => {
         }
     }
 
+
     return (
         <div>
             <h1>Welcome to Admin Panel!</h1>
@@ -50,6 +55,7 @@ const AdminPanle = () => {
                         <th>Email</th>
                         <th>Status</th>
                         <th>Role</th>
+                        <th>isAdmin</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -62,14 +68,16 @@ const AdminPanle = () => {
                         <td>{details.email}</td>
                         <td>{details.status}</td>
                         <td>{details.role}</td>
+                        <td>{details.isAdmin ? 'True':'False'}</td>
                         {details.role === "adopter" ?
                         <>
                             <td><button>Block</button></td>
                         </>:
                         <>
                             <td>
-                                <button onClick={() => changeStatus(details.$id,"approved")}>Approve</button>
-                                <button onClick={() => changeStatus(details.$id,"rejected")}>Reject</button>
+                                <button style={{backgroundColor:"blue",color:"white"}} onClick={() => changeStatus(details.$id,"Approved")}>Approve</button>
+                                <button style={{backgroundColor:"red",color:"white"}} onClick={() => changeStatus(details.$id,"Rejected")}>Reject</button>
+                                <button onClick={() => makeAdmin(details.$id)}>{details.isAdmin ? 'Remove Admin':'Make Admin'}</button>
                             </td>
                         </>
                             }
