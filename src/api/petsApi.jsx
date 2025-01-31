@@ -3,52 +3,31 @@ import { account, databases } from "./appwrite";
 
 
 export const uploadPet = async (petData) => {
-    try {
+  console.log('uploading...');
   
-      console.log('Uploading Pet started...');
-      // Step 1: Get current authenticated user
-      const currentUser = await account.get();
-  
-      // Step 2: Fetch the user document from the users collection
-      const response = await databases.listDocuments(
-        process.env.REACT_APP_DB_ID,  // Database ID
-        process.env.REACT_APP_USERS_ID, // Users Collection ID
-        [Query.equal("userId", currentUser.$id)] // Query using userId
-      );
-  
-      // Step 3: Ensure the user is an organization
-      const userDocument = response.documents[0];
-      if (userDocument.role !== 'Organization' || userDocument.status !== 'Approved') {
-        // if (userDocument.role !== 'Organization' || userDocument.status !== 'Approved') {
-        throw new Error('Only organizations can upload pets.');
+  const url = process.env.REACT_APP_PETS_API;
+  const jwtToken = await account.createJWT();
+      
+      const response = await fetch("https://679b7ca8bcf48aaa6895.appwrite.global/pets", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${jwtToken.jwt}`
+        },
+        body: JSON.stringify(petData)
+      });
+      
+      const data = await response.json();
+
+        // console.log('dataaa res:',response.status);
+        
+
+      if (response.status !== 200) {
+        throw new Error(data.error);
       }
-      // Step 4: Ensure the organization_id is available in the user document
-      const organizationId = userDocument.userId;
-      if (!organizationId) {
-        throw new Error('Organization ID is required to upload pets.');
-      }
-  
-      // Step 5: Add organization_id to pet data
-      const petWithOrgDataAndCategory = {
-        ...petData,
-        category: petData.category || 'others',
-        organization_id: organizationId // Attach the organization_id to the pet data
-      };
-  
-      // Step 6: Add pet data to the animals collection
-      const newPet = await databases.createDocument(
-        process.env.REACT_APP_DB_ID,    // Database ID
-        process.env.REACT_APP_ANIMALS_ID, // Animals Collection ID
-        ID.unique(), // Unique Document ID
-        petWithOrgDataAndCategory  // Pet Data to be stored in the document
-      );
-  
-      console.log("Pet added successfully:", newPet);
-  
-    } catch (error) {
-      console.log(error);
-  
-    }
+      // console.log('Pet created successfully:', data);
+
+      return data;
   }
 
   export const getMyPets = async () => {
@@ -88,33 +67,28 @@ export const uploadPet = async (petData) => {
     }
   };
 
-  export const updatePetById = async (petId, updatedData) => {
+  export const updatePetById = async (petId, updatedPetData) => {
     try {
-          // Step 1: Get current authenticated user
-          const currentUser = await account.get();
-      
-          // Step 2: Fetch the user document from the users collection
-          const response = await databases.listDocuments(
-            process.env.REACT_APP_DB_ID,  // Database ID
-            process.env.REACT_APP_USERS_ID, // Users Collection ID
-            [Query.equal("userId", currentUser.$id)] // Query using userId
-          );
-          
-          // Step 3: Ensure the user is an organization
-          const userDocument = response.documents[0];
-          if (userDocument.role !== 'Organization') {
-            throw new Error('Only organizations can see their pets.');
-          }
-      // Update the pet document by its ID
-      const updatedPet = await databases.updateDocument(
-        process.env.REACT_APP_DB_ID,     // Database ID
-        process.env.REACT_APP_ANIMALS_ID, // Animals Collection ID
-        petId,                           // Document ID (pet ID)
-        updatedData                      // Object containing updated fields
-      );
+      console.log('updateeeeeee...');
   
-      console.log(`Pet with ID ${petId} updated successfully:`, updatedPet);
-      return updatedPet;
+      const url = process.env.REACT_APP_PETS_API;
+      const jwtToken = await account.createJWT();
+          
+          const response = await fetch("https://679b7ca8bcf48aaa6895.appwrite.global/pets", {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jwtToken.jwt}`
+            },
+            body: JSON.stringify({petId, updatedPetData})
+          });
+          
+          const data = await response.json();
+
+          if (response.status !== 200) {
+            throw new Error(data.error);
+          }
+          return data;
     } catch (error) {
       console.error("Error updating pet:", error);
     }
@@ -122,32 +96,53 @@ export const uploadPet = async (petData) => {
 
   export const deleteMyPet = async (petId) => {
     try {
+      console.log('deetlting...');
       
-      // Step 1: Get current authenticated user
-      const currentUser = await account.get();
+      const url = process.env.REACT_APP_PETS_API;
+      const jwtToken = await account.createJWT();
+          
+          const response = await fetch("https://679b7ca8bcf48aaa6895.appwrite.global/pets", {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${jwtToken.jwt}`
+            },
+            body: JSON.stringify({petId:petId})
+          });
+
+        const data = await response.json();
+        console.log('del res',data);
+
+        if (response.status !== 200) {
+          throw new Error(data.error);
+        }
+      return data;
+
+      // // Step 1: Get current authenticated user
+      // const currentUser = await account.get();
       
-      // Step 2: Fetch the user document from the users collection
-      const response = await databases.listDocuments(
-        process.env.REACT_APP_DB_ID,  // Database ID
-        process.env.REACT_APP_USERS_ID, // Users Collection ID
-        [Query.equal("userId", currentUser.$id)] // Query using userId
-      );
+      // // Step 2: Fetch the user document from the users collection
+      // const response = await databases.listDocuments(
+      //   process.env.REACT_APP_DB_ID,  // Database ID
+      //   process.env.REACT_APP_USERS_ID, // Users Collection ID
+      //   [Query.equal("userId", currentUser.$id)] // Query using userId
+      // );
       
-      // Step 3: Ensure the user is an organization
-      const userDocument = response.documents[0];
-      if (userDocument.role !== 'Organization') {
-        throw new Error('Only organizations can see their pets.');
-      }
+      // // Step 3: Ensure the user is an organization
+      // const userDocument = response.documents[0];
+      // if (userDocument.role !== 'Organization') {
+      //   throw new Error('Only organizations can see their pets.');
+      // }
       
-      console.log('pet deleting...');
-      // Delete the pet document by its ID
-      await databases.deleteDocument(
-        process.env.REACT_APP_DB_ID,     // Database ID
-        process.env.REACT_APP_ANIMALS_ID, // Animals Collection ID
-        petId                            // Document ID (pet ID)
-      );
+      // console.log('pet deleting...');
+      // // Delete the pet document by its ID
+      // await databases.deleteDocument(
+      //   process.env.REACT_APP_DB_ID,     // Database ID
+      //   process.env.REACT_APP_ANIMALS_ID, // Animals Collection ID
+      //   petId                            // Document ID (pet ID)
+      // );
   
-      console.log(`Pet with ID ${petId} deleted successfully.`);
+      // console.log(`Pet with ID ${petId} deleted successfully.`);
       
   
     } catch (error) {

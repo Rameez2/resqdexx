@@ -4,6 +4,7 @@ import MyPets from '../components/pages/profile/MyPets';
 import { Link } from 'react-router-dom';
 import Loader1 from '../components/loaders/Loader1';
 import { useUser } from '../context/userContext';
+import Msg from '../components/pages/profile/Msg';
 
 const Profile = () => {
     const [userData, setUserData] = useState(null);
@@ -34,7 +35,11 @@ const Profile = () => {
                     <>
                         <h1>Welcome, {userData.name}!</h1> 
                         <p>email: {userData.email}</p> 
-                        {/* <p>verify status: {userData.verified ? <span style={{"color":"green"}}>Verified</span>:<span style={{"color":"red"}}>Not verified</span>}</p>  */}
+                        {userData.role === "Organization" ? 
+                            <p>status: {userData.status === "Approved" ? <span style={{"color":"green"}}>{userData.status}</span>:
+                        userData.status === "Pending" ? <span style={{"color":"grey"}}>{userData.status} </span>:
+                        <span style={{"color":"red"}}>{userData.status}</span>}</p>
+                        :<></>}
                         <p>role: {userData.role}</p> 
                     </>
                 ) : (
@@ -50,6 +55,9 @@ const Profile = () => {
                 </> : <h1> <Link to="/animals-list">Aadopt a pet</Link></h1>
                 }
             </div>
+
+
+            <Msg/>
         </div>
     );
 }

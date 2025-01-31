@@ -1,52 +1,44 @@
 import React, { useState } from 'react';
 import { updatePetById, uploadPet } from '../../../api/petsApi';
 import { useLocation } from 'react-router-dom';
+import styles from '../../../styles/profile/petForm.module.css';
 
 const PetForm = () => {
   const [petInfo, setPetInfo] = useState({
-    name: 'deummm',
-    age: 1,
-    category: 'Other', // Default category
-    breed: 'asdasd',
-    size: 'Small',
-    temperament: 'Calm',
-    contact: '+92 305106514',
+    name: 'Billy',
+    age: 3,
+    category: 'Cat',
+    breed: 'Persian',
+    size: 'Medium',
+    temperament: 'Friendly',
+    contact: '+92 384523432',
     gender: 'Male',
-    location: 'Peshawar',
-    bio: 'this is',
-    main_image:'main_img_url',
-    images: [], // You can later extend this to handle file inputs for photos
+    location: 'Peshawar, Pakistan',
+    bio: 'Billy is a friendly cat',
+    main_image: 'main_image.jpg',
+    images: ['image1', 'image2'],
   });
 
-  const location = useLocation();
+  const [loading, setLoading] = useState(false); // 🔹 Added loading state
 
-  const { formType,petId } = location.state || "upload";
+  const location = useLocation();
+  const { formType, petId } = location.state || { formType: 'upload' };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
-    // If the field is 'age', convert the value to an integer
-    if (name === 'age') {
-      setPetInfo((prevInfo) => ({
-        ...prevInfo,
-        [name]: parseInt(value, 10) || '', // Use parseInt and fallback to empty string if invalid input
-      }));
-    } else {
-      setPetInfo((prevInfo) => ({
-        ...prevInfo,
-        [name]: value,
-      }));
-    }
+    setPetInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: name === 'age' ? parseInt(value, 10) || '' : value,
+    }));
   };
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // 🔹 Set loading to true when submitting
 
     try {
-
-        formType === "update" ? await updatePetById(petId,petInfo) : await uploadPet(petInfo);;
-      // Reset the form after successful submission
+      formType === 'update' ? await updatePetById(petId, petInfo) : await uploadPet(petInfo);
+      alert('Success!');
       setPetInfo({
         name: '',
         age: 1,
@@ -54,107 +46,76 @@ const PetForm = () => {
         breed: '',
         size: '',
         temperament: '',
+        contact: '',
+        gender: 'Male',
         location: '',
         bio: '',
-        gender:'Male',
-        photos: [],
+        main_image: '',
+        images: [],
       });
     } catch (error) {
-        console.log(error);
-      alert('Failed to upload or update pet.');
+      console.log('Error:', error.message);
+      alert('Failed to process pet information.');
+    } finally {
+      setLoading(false); // 🔹 Reset loading after completion
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      
-      {formType === "update" ? <h2>Update Pet Information</h2> : <h2>Upload Pet Information</h2>}
+    <form onSubmit={handleSubmit} className={styles.petForm}>
+      <h2>{formType === 'update' ? 'Update Pet Information' : 'Upload Pet Information'}</h2>
 
-      <label>Name:</label>
-      <input
-        type="text"
-        name="name"
-        value={petInfo.name}
-        onChange={handleChange}
-        required
-      />
-      
-      <label>Age:</label>
-      <input
-        type="number"
-        name="age"
-        value={petInfo.age}
-        onChange={handleChange}
-        required
-      />
-      
-      <label>Category:</label>
-      <select
-        name="category"
-        value={petInfo.category}
-        onChange={handleChange}
-        required
-      >
-        <option value="others">Others</option>
-        <option value="dog">Dog</option>
-        <option value="cat">Cat</option>
-      </select>
+      <div className={styles.petFormInputsContainer}>
+        <div className={styles.inputRow}>
+          <label>Name:</label>
+          <input type="text" name="name" value={petInfo.name} onChange={handleChange} required />
 
-      <label>Breed:</label>
-      <input
-        type="text"
-        name="breed"
-        value={petInfo.breed}
-        onChange={handleChange}
-        required
-      />
+          <label>Age:</label>
+          <input type="number" name="age" value={petInfo.age} onChange={handleChange} required />
+        </div>
 
-      <label>Size:</label>
-      <input
-        type="text"
-        name="size"
-        value={petInfo.size}
-        onChange={handleChange}
-        required
-      />
+        <div className={styles.inputRow}>
+          <label>Category:</label>
+          <select name="category" value={petInfo.category} onChange={handleChange} required>
+            <option value="others">Others</option>
+            <option value="dog">Dog</option>
+            <option value="cat">Cat</option>
+          </select>
 
-      <label>Temperament:</label>
-      <input
-        type="text"
-        name="temperament"
-        value={petInfo.temperament}
-        onChange={handleChange}
-        required
-      />
+          <label>Breed:</label>
+          <input type="text" name="breed" value={petInfo.breed} onChange={handleChange} required />
+        </div>
 
-      <label>Location:</label>
-      <input
-        type="text"
-        name="location"
-        value={petInfo.location}
-        onChange={handleChange}
-        required
-      />
+        <div className={styles.inputRow}>
+          <label>Size:</label>
+          <input type="text" name="size" value={petInfo.size} onChange={handleChange} required />
 
-      <label>Bio:</label>
-      <textarea
-        name="bio"
-        value={petInfo.bio}
-        onChange={handleChange}
-        required
-      />
+          <label>Temperament:</label>
+          <input type="text" name="temperament" value={petInfo.temperament} onChange={handleChange} required />
+        </div>
 
-      <label>Photos (URLs):</label>
-      <input
-        type="text"
-        name="photos"
-        value={petInfo.photos}
-        onChange={handleChange}
-        placeholder="Comma separated URLs"
-      />
-      {formType === "update" ? <button type="submit">Update Pet</button> : <button type="submit">Upload Pet</button>}
-        
-      
+        <div className={styles.inputRow}>
+          <label>Location:</label>
+          <input type="text" name="location" value={petInfo.location} onChange={handleChange} required />
+
+          <label>Bio:</label>
+          <textarea name="bio" value={petInfo.bio} onChange={handleChange} required />
+        </div>
+
+        <div className={styles.inputRow}>
+          <label>Main Image URL:</label>
+          <input type="text" name="main_image" value={petInfo.main_image} onChange={handleChange} required />
+
+          <label>Photos (URLs, comma-separated):</label>
+          <input type="text" name="images" value={petInfo.images} onChange={handleChange} placeholder="e.g. url1, url2" />
+        </div>
+      </div>
+
+      <div className={styles.buttonContainer}>
+        <button type="submit" disabled={loading}>
+          {loading ? (formType === 'update' ? 'Updating...' : 'Uploading...') : formType === 'update' ? 'Update Pet' : 'Upload Pet'}
+        </button>
+      </div>
     </form>
   );
 };

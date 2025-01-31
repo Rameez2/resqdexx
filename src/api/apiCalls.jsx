@@ -7,7 +7,7 @@ export const getCurrentUserData = async () => {
     const currentUser = await account.get();
     const userId = currentUser.$id; // Authenticated user ID
 
-    console.log('1. current user is,', currentUser);
+    // console.log('1. current user is,', currentUser);
 
     const response = await databases.listDocuments(
       process.env.REACT_APP_DB_ID,  // Database ID
@@ -23,7 +23,7 @@ export const getCurrentUserData = async () => {
     }
 
     const userData = response.documents[0]; // Get the first document (should be unique)
-    console.log("User Data from Database:", userData);
+    // console.log("User Data from Database:", userData);
     return userData;
 }
 
@@ -155,11 +155,24 @@ export const registerUser = async (name, email, password, role) => {
 
 export const loginUserWithEmail = async (email, password) => {
   const response = await account.createEmailPasswordSession(email, password);
-  console.log("session ID",response.$id); // Success
-  localStorage.setItem('sessionId', response.$id);
+  // console.log("session ID",response.$id); // Success
+      // 🔹 Generate JWT
+      const jwt = await account.createJWT();
+    
+      // 🔹 Store JWT in localStorage
+      localStorage.setItem("appwrite_jwt", jwt.jwt);
+      console.log("JWT saved to localStorage:", jwt.jwt);
   return response;
 };
 
+export const generateJWT = async () => {
+        // 🔹 Generate JWT
+        const jwt = await account.createJWT();
+    
+        // 🔹 Store JWT in localStorage
+        localStorage.setItem("appwrite_jwt", jwt.jwt);
+        console.log("JWT saved to localStorage:", jwt.jwt);
+}
 
 export const logout = async () => {
   // console.log('oputingg start');

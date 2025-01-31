@@ -1,0 +1,77 @@
+.container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.loadButton {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.loadButton:hover {
+    background-color: #45a049;
+}
+
+.petTable {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+.petTable th, .petTable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.petTable th {
+    background-color: #f2f2f2;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+}
+
+.updateButton {
+    padding: 8px 12px;
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.updateButton:hover {
+    background-color: #007bb5;
+}
+
+.deleteButton {
+    padding: 8px 12px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.deleteButton:hover {
+    background-color: #d32f2f;
+}
+
+.deleteButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.noPets {
+    font-size: 18px;
+    color: #777;
+    margin-top: 10px;
+}

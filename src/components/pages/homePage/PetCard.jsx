@@ -4,7 +4,7 @@ import { updateFavourites } from '../../../api/apiCalls';
 const PetCard = ({petName,breedName,petId,isFav}) => {
     return (
         <div className={styles.petBox}>
-            {isFav ? <i style={{backgroundColor:"black"}} onClick={() => updateFavourites(petId)} className={`${styles.heartIcon} fa-regular fa-heart`}></i> : <i onClick={() => updateFavourites(petId)} className={`${styles.heartIcon} fa-regular fa-heart`}></i>}
+            {isFav ? <i onClick={() => updateFavourites(petId)} className={`${styles.heartIcon} fa-regular fa-heart`}></i> : <i onClick={() => updateFavourites(petId)} className={`${styles.heartIcon} fa-regular fa-heart`}></i>}
             {/* <i onClick={() => updateFavourites(petId)} className={`${styles.heartIcon} fa-regular fa-heart`}></i> */}
             <div className={styles.petImage}>
                 <img src="/static_images/card-dog.jpeg" alt="" />

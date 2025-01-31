@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route,Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route,Navigate, useLocation } from "react-router-dom";
 import { UserProvider,useUser } from "./context/userContext";
 
 import Home from "./routes/Home";
@@ -46,10 +46,13 @@ const AdminProtectedRoute = ({ element, redirectTo }) => {
 };
 
 const App = () => {
+  // const location = useLocation(); // Get current route location
+  const hideNavRoutes = ["/admin-panel"]; // Define routes where Nav should be hidden
+
   return (
     <UserProvider>
     <Router>
-      <Nav/>
+    {window.location.pathname !== "/admin-panel" && <Nav />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />

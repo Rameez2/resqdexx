@@ -4,12 +4,15 @@ import { useUser } from '../context/userContext';
 import { Client, Functions, ID } from "appwrite";
 import { useState } from 'react';
 import { storage } from '../api/appwrite';
+import { generateJWT } from '../api/apiCalls';
+import { sendMessage } from '../api/messagesApi';
+
 
 
 const Nav = () => {
 
     let { user, logout } = useUser();
-    const [pic,setPic] = useState(null);
+    // const [pic,setPic] = useState(null);
 
     async function handleLogOut() {
         try {
@@ -21,52 +24,32 @@ const Nav = () => {
     }
 
 
-    async function handleSubmit(e) {
-        e.preventDefault();
-        if(pic != null) {
-            try {
-                console.log('upload start');
-                // REACT_APP_BUCKET_ID
-                let x = await storage.createFile(
-                    process.env.REACT_APP_BUCKET_ID,
-                    ID.unique(),
-                    pic
-                );
-                console.log(x);
+    // async function handleSubmit(e) {
+    //     e.preventDefault();
+    //     if(pic != null) {
+    //         try {
+    //             console.log('upload start');
+    //             // REACT_APP_BUCKET_ID
+    //             let x = await storage.createFile(
+    //                 process.env.REACT_APP_BUCKET_ID,
+    //                 ID.unique(),
+    //                 pic
+    //             );
+    //             console.log(x);
                 
-            } catch (error) {
-                console.log('error while upload:',error.message);
+    //         } catch (error) {
+    //             console.log('error while upload:',error.message);
                 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 
-    function callAPI() {
-        const sessionId = localStorage.getItem('sessionId');
-        fetch('http://localhost:5000', {
-        method: 'GET', // or other HTTP method
-        headers: {
-            'Authorization': `Bearer ${sessionId}`,
-            'Content-Type': 'application/json',
-        },
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data); // Handle the response
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
+
 
     return (
         <nav>
-            <form onSubmit={handleSubmit}>
-                <input type="file" name='file' onChange={(e) => setPic(e.target.files[0])} />
-                <button type='submit'>Submit Image</button>
-            </form>
-
-            <button onClick={callAPI}>Call API</button>
+            <button onClick={generateJWT}>Get JWT</button>
+            <button onClick={sendMessage}>Send Message</button>
 
             <div className={styles.navTop}>
                 <div className={styles.navLogo}>

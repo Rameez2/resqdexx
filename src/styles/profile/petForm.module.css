@@ -1,0 +1,65 @@
+.petForm {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    background: #f9f9f9;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+ .petForm > h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: orange;
+  }
+  
+  .petFormInputsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .inputRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  
+  .inputRow label {
+    flex: 1;
+    font-weight: bold;
+  }
+  
+  .inputRow input,
+  .inputRow select,
+  .inputRow textarea {
+    flex: 2;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+ .petForm textarea {
+    resize: none;
+    height: 60px;
+  }
+  
+  .buttonContainer {
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+ .petForm button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+ .petForm button:hover {
+    background-color: #0056b3;
+  }
+  

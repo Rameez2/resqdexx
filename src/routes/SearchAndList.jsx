@@ -86,7 +86,21 @@ const SearchAndList = () => {
                     <select name="sort" id="sort">
                         <option value="newest">Newest</option>
                     </select>
+                    {/* SEARCH */}
+                    <input
+            type="text"
+            name="search"
+            placeholder="Search by name"
+            style={{
+              padding: "10px",
+              border: "1px solid #ccc",
+              borderRadius: "5px",
+              fontSize: "16px",
+              width: "200px",
+            }}
+          />
                 </div>
+
                 <div className={styles.petsListing}>
 
             {loading ? <h1>Loading....</h1> : error ? <h1>Error : {error}</h1> : 
