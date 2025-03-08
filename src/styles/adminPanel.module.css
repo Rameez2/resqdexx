@@ -1,29 +1,49 @@
-.organizationsList{
-
-}
-
-.organizaton{
-
-}
-
-.organizationTable {
-    border: 1px solid;
-    border-radius: 20px;
-    padding: 20px;
-    font-size: 25px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.organizationTable > thead > th {
-    background-color: #2cd155;
-    color: black;
-    border: 2px solid red;
-}
-
-.organizationTable > tbody > tr:nth-child(even) {
-    background-color: rgb(187, 187, 187);
-}
-.organizationTable > tbody > tr:nth-child(odd) {
-    background-color: grey;
-}
+/* Container for the entire admin panel */
+.adminPanelContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Container for the tab buttons */
+  .tabContainer {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  /* Style for each tab button */
+  .tabButton {
+    background-color: transparent;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #555;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+  }
+  
+  /* Hover state for tab button */
+  .tabButton:hover {
+    color: #000;
+  }
+  
+  /* Active tab style */
+  .activeTab {
+    border-bottom-color: #007bff; /* Blue underline for active tab */
+    color: #007bff;
+    font-weight: bold;
+  }
+  
+  /* Container for the content that shows under each tab */
+  .tabContent {
+    background-color: #f9f9f9;
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    min-height: 300px;
+  }
+  

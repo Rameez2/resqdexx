@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import styles from '../../../styles/petCard.module.css'
-import { updateFavourites } from '../../../api/apiCalls';
+import { updateFavourites } from '../../../api/userApi';
+
 const PetCard = ({petName,breedName,petId,isFav}) => {
     return (
         <div className={styles.petBox}>

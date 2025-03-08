@@ -1,0 +1,96 @@
+.container {
+    max-width: -webkit-fill-available;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 10px;
+  }
+  
+  .heading {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .loading {
+    color: orange;
+    font-size: 18px;
+  }
+  
+  .userLoader {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 50px;
+    color: #007bff;
+  }
+  
+  .form {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background: blue;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .select {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  .fetchBtn {
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* CHATS */
+
+  .searchContainer{
+
+  }
+  
+  .searchAndChats{
+      flex:1;
+  }
+.chatInfo > div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+}
+
+.chatInfo > div > span:nth-child(1){
+    color: red;
+    font-weight: bold;
+}
+.chatInfo > div > span:nth-child(2){
+    color: grey;
+    text-align: start;
+    font-size: 15px;
+}
+

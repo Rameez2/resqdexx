@@ -4,7 +4,7 @@ import { useUser } from '../context/userContext';
 import { Client, Functions, ID } from "appwrite";
 import { useState } from 'react';
 import { storage } from '../api/appwrite';
-import { generateJWT } from '../api/apiCalls';
+import { generateJWT } from '../api/authApi';
 import { sendMessage } from '../api/messagesApi';
 
 
@@ -45,7 +45,7 @@ const Nav = () => {
     // }
 
 
-
+ 
     return (
         <nav>
             <button onClick={generateJWT}>Get JWT</button>
@@ -117,9 +117,16 @@ const Nav = () => {
 
                 </div>
                 <div className="navBottomBtn">
-                    <Link to="/register?role=organization">
-                        <button className='primary-btn' style={{ "color": "white", "border": "1px solid white", }} >Join as organization</button>
+                    {user ? user.role === "Organization" ? 
+                        <Link to="/search-adopters">
+                        <button className='primary-btn no-hover' style={{ "color": "white", "border": "1px solid white" }} >Search for Adopters</button>
                     </Link>
+                    :<></>
+                    :                    
+                    <Link to="/register?role=organization">
+                        <button className='primary-btn no-hover' style={{ "color": "white", "border": "1px solid white" }} >Join as organization</button>
+                    </Link>
+                    }
                 </div>
             </div>
         </nav>

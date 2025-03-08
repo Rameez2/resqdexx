@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getAllPets } from '../api/apiCalls';
 import PetCard from '../components/pages/homePage/PetCard';
 import styles from '../styles/searchAndList.module.css';
 import { useUser } from '../context/userContext';
+import { getAllPets } from '../api/petsApi';
 const SearchAndList = () => {
     
     const [loading,setLoading] = useState(true);

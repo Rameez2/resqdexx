@@ -1,99 +1,88 @@
-import { loginUserWithEmail, logout } from '../api/apiCalls';
-import { useState,useEffect } from 'react';
+import { loginUserWithEmail } from '../api/authApi';
+import { useState, useEffect } from 'react';
 import { useUser } from '../context/userContext';
 import { useNavigate } from 'react-router-dom';
+import styles from '../styles/login.module.css';
 
 const Login = () => {
-    // State management for email and password
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [FormLoading, setFormLoading] = useState(false); // Loading state
+    const [error, setError] = useState(''); // Error state
+
     let navigate = useNavigate();
+    const {loading, user, login } = useUser(); 
 
-    const { user, login } = useUser(); // Get user and login function from context
-
-    // If the user is already logged in, navigate to the home page
     useEffect(() => {
         if (user) {
-            navigate('/'); // Redirect to home if user is already logged in
+            navigate('/'); 
         }
     }, [user, navigate]);
 
-    // Handle login with email and password
     async function handleLogin(e) {
         e.preventDefault();
+        if (FormLoading) return;
+
+        setFormLoading(true);
+        setError(''); // Clear previous error
+
         try {
             let response = await loginUserWithEmail(email, password);
-            console.log('login res',response.$id);
-            // localStorage.setItem('sessionTok')
+            console.log('Login successful:', response.$id);
             login();
             navigate("/");
-        } catch (error) {
-            console.log(error);
+        } catch (err) {
+            console.error('Login failed:', err);
+            setError('Invalid email or password. Please try again.');
+        } finally {
+            setFormLoading(false);
         }
     }
 
+    if(loading) {
+        return (<h1>checks...</h1>)
+    }
+
     return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-            backgroundColor: '#f4f4f4'
-        }}>
-            <div style={{
-                backgroundColor: '#fff',
-                padding: '20px',
-                borderRadius: '8px',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                width: '300px',
-                textAlign: 'center'
-            }}>
-                <h2 style={{ marginBottom: '20px', color: '#333' }}>Login</h2>
-                <form>
-                    <input
-                        type="email"
-                        placeholder='Email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        style={{
-                            width: '100%',
-                            padding: '10px',
-                            marginBottom: '15px',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                            fontSize: '16px'
-                        }}
-                    />
-                    <input
-                        type="password"
-                        placeholder='Password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={{
-                            width: '100%',
-                            padding: '10px',
-                            marginBottom: '20px',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                            fontSize: '16px'
-                        }}
-                    />
-                    <button
-                        type="submit"
-                        onClick={handleLogin}
-                        style={{
-                            width: '100%',
-                            padding: '12px',
-                            backgroundColor: '#4CAF50',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '4px',
-                            fontSize: '16px',
-                            cursor: 'pointer',
-                            transition: 'background-color 0.3s'
-                        }}
+        <div>
+
+            <div className={styles.formContainer}>
+                <h2>Login</h2>
+                <form onSubmit={handleLogin}>
+                    <label>
+                        <span>Email:</span>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => {
+                                setEmail(e.target.value);
+                                setError(''); // Clear error on input change
+                            }}
+                        />
+                    </label>
+
+                    <label>
+                        <span>Password:</span>
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                setError('');
+                            }}
+                        />
+                    </label>
+
+                    {error && <p className={styles.error}>{error}</p>} {/* Display error message */}
+
+                    <button 
+                        className="primary-btn" 
+                        type="submit" 
+                        disabled={FormLoading}
                     >
-                        Login
+                        {FormLoading ? "Logging in..." : "Login"}
                     </button>
                 </form>
             </div>

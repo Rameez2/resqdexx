@@ -1,216 +1,147 @@
-import React, { useEffect, useState } from 'react';
-import { client } from '../../../api/appwrite';
-import { getMessages, getReceivedMessages, sendMessage } from '../../../api/messagesApi';
-import { getCurrentUserData } from '../../../api/apiCalls';
-import { getUserDocuments } from '../../../api/userApi';
+import React, { useEffect, useState } from "react";
+import { client } from "../../../api/appwrite";
+import { getMessages, sendMessage, fetchMyChats } from "../../../api/messagesApi";
+import { getCurrentUserData } from "../../../api/authApi";
+import styles from "../../../styles/profile/Msg.module.css";
+import MessagesSection from "./Messages/MessagesSection"; // Import the new component
 
-const Msg = () => {
-  const [msg, setMsg] = useState('');
+const Msg = ({ adopterInfo }) => {
+  const [msg, setMsg] = useState("");
   const [msgList, setMsgList] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
-  const [userId, setUserId] = useState(null); // Store user ID
-  const [recieverId, setRecieverId] = useState(null); // Store receiver ID
+  const [chatList, setChatList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [userLoading, setUserLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [recieverId, setRecieverId] = useState("");
+  const [recieverName, setRecieverName] = useState("");
+  const [messageSending, setMessageSending] = useState(false);
+
+  // console.log("got adopter info", adopterInfo);
+
+  // If adopterInfo exists (i.e. redirected from search page), set receiver info accordingly
+  useEffect(() => {
+    if (adopterInfo) {
+      setRecieverId(adopterInfo.$id);
+      setRecieverName(adopterInfo.name);
+    }
+  }, [adopterInfo]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        // Get current user data
-        const user = await getCurrentUserData();
-        setUserId(user.$id); // Store user ID
-  
-        // Fetch messages from both sender and receiver perspectives
-        setLoading(true); // Start loading
-  
-        // Get messages where the user is the sender
-        const sentMessages = await getMessages(user.$id, recieverId);
-  
-        // Get messages where the user is the receiver (swap sender and receiver)
-        const receivedMessages = await getMessages(recieverId, user.$id);
-  
-        // Merge both message lists
-        const allMessages = [...sentMessages, ...receivedMessages];
-  
-        // Sort messages by timestamp (assuming the message has a `createdAt` field)
-        allMessages.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
-  
-        // Set the sorted messages to state
-        setMsgList(allMessages);
+        setUserLoading(true);
+        const currentUser = await getCurrentUserData();
+        const userChats = await fetchMyChats(currentUser.$id);
+        setUser(currentUser);
+        setChatList(userChats);
       } catch (error) {
-        console.log('Error getting messages:', error);
+        console.log("Error fetching user:", error);
       } finally {
-        setLoading(false); // Stop loading
+        setUserLoading(false);
       }
     }
-  
     fetchData();
-  
+  }, []);
+
+  useEffect(() => {
+    async function fetchMessages() {
+      try {
+        // Only show the loader if there are no messages loaded yet
+        if (msgList.length === 0) {
+          setLoading(true);
+        }
+        const sentMessages = await getMessages(user.$id, recieverId);
+        const receivedMessages = await getMessages(recieverId, user.$id);
+        const allMessages = [...sentMessages, ...receivedMessages];
+        allMessages.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
+        setMsgList(allMessages);
+      } catch (error) {
+        console.log("Error getting messages:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    if (recieverId && user) fetchMessages();
+
     const unsubscribe = client.subscribe(
-      'databases.6799c8c6002ec035cc8c.collections.679b5d920001b01e6659.documents',
+      "databases.6799c8c6002ec035cc8c.collections.679b5d920001b01e6659.documents",
       (response) => {
-        console.log('Message List Updated');
-        fetchData(); // Refresh messages on real-time changes
+        fetchMessages();
       }
     );
-  
-    return () => {
-      unsubscribe();
-    };
-  }, [recieverId]); // Only run once when component mounts or receiver ID changes
-  
-  
+    return () => unsubscribe();
+  }, [recieverId, user]);
 
-  // Function to send a message
   async function sendMsg(e) {
-    e.preventDefault(); // Prevent page reload
+    e.preventDefault();
+    if (messageSending) return;
+
     try {
-      if (msg.trim() !== '' && recieverId) {
-        // Send message
-        await sendMessage(userId, recieverId, msg); // Use actual receiver ID
-        console.log('Message sent successfully!');
-        setMsg(''); // Clear input after sending
+      if (msg.trim() !== "" && recieverId) {
+        setMsg("");
+        const newMessage = {
+          sender: user.$id,
+          reciever: recieverId,
+          content: msg,
+          $createdAt: new Date().toISOString(),
+        };
+        // Optimistically add the new message to the list
+        setMsgList((prevMessages) => [newMessage, ...prevMessages]);
+        setMessageSending(true);
+        await sendMessage(user.$id, recieverId, msg);
       } else {
-        console.log('Please select a recipient!');
+        console.log("Please select a recipient!");
       }
     } catch (error) {
-      console.error('Message error:', error);
+      console.error("Message error:", error);
+      alert("Failed to send message");
+    } finally {
+      setMessageSending(false);
     }
   }
 
-  // Handle recieverId change
-  const handleReceiverChange = (e) => {
+  const handleReceiverChange = (otherUserId, otherUserName) => {
     setMsgList([]);
-    setRecieverId(e.target.value); // Update recieverId based on the selected option
+    setRecieverId(otherUserId);
+    setRecieverName(otherUserName);
   };
 
-
-  async function getUserDocumentsByRole() {
-    try {
-      let usrRes = await getUserDocuments('Organization');
-    } catch (error) {
-      console.log('Error USER ROLE:',error);
-      
-    }
+  if (userLoading) {
+    return <p className={styles.userLoader}>Fetching user data...</p>;
   }
 
   return (
-    <div style={styles.container}>
-    <button onClick={getUserDocumentsByRole}>see</button>
-      {/* Dropdown to select receiver */}
-      <select 
-        name="reciever" 
-        id="recieverId"
-        onChange={handleReceiverChange} // Update recieverId on selection change
-        value={recieverId} // Bind value to recieverId state
-        style={styles.select}
-      >
-        <option value="6799cbab0028802d5a78">Rameez</option>
-        <option value="6799d6c30013f1feab75">Jack</option>
-        <option value="6799ced8002c6c808c46">Rehan</option>
-      </select>
+    <div className={styles.container}>
+      <div className={styles.searchAndChats}>
+        <div className={styles.searchContainer}>
+          <input type="text" placeholder="Search chats..." />
+        </div>
+        {chatList.length ? (
+          <div className={styles.chatInfo}>
+            {chatList.map((chat) => (
+              <div key={chat.otherUserId}>
+                <span onClick={() => handleReceiverChange(chat.otherUserId, chat.otherUserName)}>
+                  {chat.otherUserName}
+                </span>
+                <span>{chat.lastMessage}</span>
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </div>
 
-      <h1 style={styles.heading}>Messages</h1>
-
-      {/* Display loading indicator */}
-      {loading ? <p style={styles.loading}>Loading messages...</p> : null}
-
-      <ul style={styles.messageList}>
-        {msgList && msgList.length ? (
-          msgList.map((item, index) => (
-            <li key={index} style={item.sender === userId ? styles.messageItemSender : styles.messageItem}>{item.content}</li>
-          ))
-        ) : (
-          <h2 style={styles.noMessages}>No messages</h2>
-        )}
-      </ul>
-
-      {/* Form for sending messages */}
-      <form onSubmit={sendMsg} style={styles.form}>
-        <input 
-          type="text"
-          value={msg}
-          onChange={(e) => setMsg(e.target.value)}
-          placeholder="Type a message..."
-          style={styles.input}
-        />
-        <button type="submit" style={styles.button}>Send</button>
-      </form>
+      {/* Use the extracted MessagesSection component */}
+      <MessagesSection
+        msgList={msgList}
+        msg={msg}
+        setMsg={setMsg}
+        sendMsg={sendMsg}
+        loading={loading}
+        user={user}
+        recieverName={recieverName}
+      />
     </div>
   );
 };
 
 export default Msg;
-
-const styles = {
-  container: {
-    maxWidth: '500px',
-    margin: 'auto',
-    padding: '20px',
-    textAlign: 'center',
-    background: '#fff',
-    borderRadius: '10px',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-  },
-  heading: {
-    fontSize: '24px',
-    color: '#333',
-    marginBottom: '10px',
-  },
-  loading: {
-    color: 'orange',
-    fontSize: '18px',
-  },
-  messageList: {
-    listStyle: 'none',
-    padding: 0,
-    margin: '10px 0',
-    maxHeight: '300px',
-    overflowY: 'auto',
-    display: 'flex',
-    'flex-direction': 'column-reverse',
-  },
-  messageItem: {
-    background: '#f3f3f3',
-    padding: '10px',
-    borderRadius: '5px',
-    marginBottom: '5px',
-    textAlign: 'left',
-  },
-  messageItemSender:{
-    background: 'blue',
-    color:'white',
-    padding: '10px',
-    borderRadius: '5px',
-    marginBottom: '5px',
-    textAlign: 'left', 
-  },
-  noMessages: {
-    fontSize: '18px',
-    color: '#777',
-  },
-  form: {
-    display: 'flex',
-    gap: '10px',
-    marginTop: '10px',
-  },
-  input: {
-    flex: 1,
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-  },
-  button: {
-    padding: '10px 15px',
-    borderRadius: '5px',
-    border: 'none',
-    background: 'blue',
-    color: '#fff',
-    cursor: 'pointer',
-  },
-  select: {
-    padding: '10px',
-    marginBottom: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    fontSize: '16px',
-  },
-};

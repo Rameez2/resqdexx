@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getAllPets } from "../../../api/apiCalls";
 import { adminDeletePetById } from "../../../api/adminApi";
+import { getAllPets } from "../../../api/petsApi";
 
 const PetsList = () => {
     const [pets, setPets] = useState([]);

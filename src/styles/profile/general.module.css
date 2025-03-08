@@ -1,0 +1,12 @@
+.general {
+    /* background-color: orange;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 7px; */
+}
+
+
+.disabledBtn{
+    background-color: #d3d3d3; /* Grey color */
+    cursor: not-allowed; /* Change cursor to indicate it's disabled */
+}

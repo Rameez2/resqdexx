@@ -27,7 +27,8 @@
     text-decoration: none;
     color: var(--black);
     cursor: pointer;
-    transition: 0.5s;
+    font-weight: 600;
+    transition: 0.5s
 }
 .navLinks > a:hover {
     color: var(--primary);
@@ -47,6 +48,7 @@
     justify-content: center;
     gap: 25px;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .navBottomLinks{
@@ -61,6 +63,7 @@
     color: white;
     font-size: 16px;
     cursor: pointer;
+    padding: 15px 0;
 }
 .navSelect > option {
     color: var(--white);

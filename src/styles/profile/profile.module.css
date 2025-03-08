@@ -1,0 +1,59 @@
+.mainContainer{
+    display: flex;
+}
+
+.sideBard {
+    border: 2px solid orange;
+    width: 250px;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sideBarOptions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sideBarOptions > div {
+    display: flex;
+    gap: 20px;
+    color: grey;
+    padding: 10px 0 10px 15px;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 5px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: 0.5s;
+}
+
+.sideBarOptions > div:hover {
+    background-color: aliceblue;
+}
+
+.selectedOption {
+    background-color: #fcf1e8;
+
+}
+
+.sideBarOptions > div > i {
+    color: orange;
+}
+
+.logoutBtn {
+    width: -webkit-fill-available;
+    text-align: center;
+    padding: 10px 0px;
+    font-size: 20px;
+}
+
+.mainContent{
+    background-color: orange;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 7px;
+    width: -webkit-fill-available;
+}

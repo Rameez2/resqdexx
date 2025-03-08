@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { client } from '../api/appwrite';
 import { Account } from 'appwrite';
-import { getCurrentUserData } from '../api/apiCalls';
+import { getCurrentUserData } from '../api/authApi';
 const account = new Account(client);
 
 // Create UserContext
@@ -21,7 +21,6 @@ export const UserProvider = ({ children }) => {
     const login = async () => {
         const userData = await getCurrentUserData();
         setUser(userData);  // Set the user when logged in
-        localStorage.setItem('user', JSON.stringify(userData));  // Save user to localStorage
     };
 
     // Function to handle logout
@@ -40,27 +39,18 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const checkUserLoggedIn = async () => {
             setLoading(true);  // Set loading to true while we fetch the user
-
-            // First, try to get the user from localStorage
-            const storedUser = JSON.parse(localStorage.getItem('user'));
-
-            if (storedUser) {
-                setUser(storedUser);  // Set user from localStorage if it exists
-                setLoading(false);  // Set loading to false when done
-            } else {
                 try {
                     // If no user in localStorage, check with Appwrite if there's an active session
                     const loggedInUser = await account.get();
                     const userData = await getCurrentUserData();
                     setUser(userData);  // Set the user if logged in
-                    localStorage.setItem('user', JSON.stringify(loggedInUser));  // Save to localStorage
                     setLoading(false);  // Set loading to false when done
                 } catch (error) {
                     setUser(null);  // If no user is logged in, set null
                     setLoading(false);  // Set loading to false even if there's an error
                     console.log('User is not logged in');
                 }
-            }
+            // }
         };
 
         checkUserLoggedIn();  // Call the function to check login status

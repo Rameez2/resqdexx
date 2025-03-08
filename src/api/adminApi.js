@@ -21,7 +21,7 @@ export const approveOrganization = async (orgId,status) => {
 
           const url = process.env.REACT_APP_PETS_API;
           const jwtToken = await account.createJWT();
-              console.log('chaning status',jwtToken.jwt);
+              // console.log('chaning status',jwtToken.jwt);
               
               const response = await fetch("https://679b8e4754abf196901a.appwrite.global/admin/status", {
                 method: 'PUT',
@@ -39,10 +39,6 @@ export const approveOrganization = async (orgId,status) => {
               throw new Error(data.error);
             }
           return data;
-
-      
-          // Return the updated document
-          // return updatedResponse;
 }
 
 export const adminDeletePetById = async (petId) => {
@@ -67,28 +63,16 @@ export const adminDeletePetById = async (petId) => {
   return data;
 }
 
-export const makeAdmin = async (id) => {
+export const getMoreDetails = async (id) => {
   try {
-    
-    // Fetch the user document by its ID
     const response = await databases.getDocument(
-        process.env.REACT_APP_DB_ID,  // Database ID
-        process.env.REACT_APP_USERS_ID, // Users Collection ID
-        id  // The unique ID of the user
-      );
-      // Update the status field to 'approved'
-      const updatedResponse = await databases.updateDocument(
-        process.env.REACT_APP_DB_ID,  // Database ID
-        process.env.REACT_APP_USERS_ID, // Users Collection ID
-        id, // The unique ID of the user
-        {
-          isAdmin:!response.isAdmin  // New status value
-        }
-      );
-      // Return the updated document
-      return updatedResponse;
-  } catch (error) { 
-      console.log('error at admin change:',error.message);
-      
+      process.env.REACT_APP_DB_ID,    // Your Database ID
+      process.env.REACT_APP_ADDITIONALINFO_ID, // Your Users Collection ID
+      id                              // The document ID passed as parameter
+    );
+    return response;
+  } catch (error) {
+    console.error("Error fetching details:", error);
+    throw error;
   }
-}
+};

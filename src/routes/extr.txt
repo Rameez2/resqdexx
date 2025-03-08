@@ -1,0 +1,89 @@
+import React, { useState, useEffect } from 'react';
+import { getCurrentUserData, uploadPet, getMyPets, deleteMyPet, updatePetById } from '../api/apiCalls';
+// import MyPets from '../components/pages/profile/MyPets';
+import { Link } from 'react-router-dom';
+// import Loader1 from '../components/loaders/Loader1';
+import { useUser } from '../context/userContext';
+import Msg from '../components/pages/profile/Msg';
+import styles from '../styles/profile/profile.module.css'
+import GeneralSettings from '../components/pages/profile/GeneralSettings';
+import PasswordSettings from '../components/pages/profile/PasswordSettings';
+import OrganizationQuestionnaire from '../components/pages/profile/organization/OrganizationQuestionnaire';
+import AdopterQuestionnaire from '../components/pages/profile/adopter/AdopterQuestionnaire';
+
+const Profile = () => {
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    const { user } = useUser();
+    
+    const [selectedOption, setSelectedOption] = useState('general');  // Default option
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const data = await getCurrentUserData(); // Fetching user data
+                setUserData(data); // Setting user data into state
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+                setLoading(false);
+            }
+        };
+    
+        fetchUserData(); // Call the async function
+    }, []); // Empty dependency array ensures this runs only once when the component mounts
+
+    // Handle the selection of options in the sidebar
+    const handleOptionClick = (option) => {
+        setSelectedOption(option); // Update the selected option
+    };
+
+    return (
+        <div className={styles.mainContainer}>
+            <div className={styles.sideBard}>
+                <div className={styles.sideBarOptions}>
+                    <div
+                        className={selectedOption === 'general' ? styles.selectedOption : ''}
+                        onClick={() => handleOptionClick('general')}
+                    >
+                        <i className="fa-solid fa-gear"></i>
+                        <p>General</p>
+                    </div>
+
+                    <div
+                        className={selectedOption === 'password' ? styles.selectedOption : ''}
+                        onClick={() => handleOptionClick('password')}
+                    >
+                        <i className="fa-solid fa-lock"></i>
+                        <p>Password</p>
+                    </div>
+
+                    <div
+                        className={selectedOption === 'messages' ? styles.selectedOption : ''}
+                        onClick={() => handleOptionClick('messages')}
+                    >
+                        <i className="fa-solid fa-message"></i>
+                        <p>Messages</p>
+                    </div>
+
+                    <div className="otherOptions">
+                        <button className={`primary-btn ${styles.logoutBtn}`}><i className="fa-solid fa-right-from-bracket"></i> Log Out</button>
+                    </div>
+                </div>
+            </div>
+
+        {/* <OrganizationQuestionnaire existingDocId="67c2ed82001784806465"/> */}
+        {/* <AdopterQuestionnaire existingDocId="67c2ed82001784806465"/> */}
+
+            <div className={styles.mainContent}>
+                {/* You can display different components based on the selected option here */}
+                {selectedOption === 'general' && <GeneralSettings/>}
+                {selectedOption === 'password' && <PasswordSettings userId={userData.$id}/>}
+                {selectedOption === 'messages' && <Msg />}  {/* Show messages component when 'Messages' is selected */}
+            </div>
+        </div>
+    );
+};
+
+export default Profile;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { registerUser } from '../api/apiCalls';
+import { registerUser } from '../api/authApi';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useUser } from '../context/userContext'; // Import the useUser hook
+import { useUser } from '../context/userContext';
 import styles from '../styles/register.module.css';
 
 const Register = () => {
@@ -10,23 +10,22 @@ const Register = () => {
         email: '',
         password: '',
     });
-
-    const [userRole, setUserRole] = useState('Adopter');  // Default to "Adopter"
-    const [loading, setLoading] = useState(false);
+    const [userRole, setUserRole] = useState('Adopter'); // Default to "Adopter"
+    const [formLoading, setFormLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // Get the role from the URL query parameters
     const location = useLocation();
     const navigate = useNavigate();
-    const { user } = useUser(); // Access the user from context
+    const { loading,user } = useUser();
 
     // Redirect to homepage if the user is already logged in
     useEffect(() => {
         if (user) {
-            navigate('/'); // Redirect to homepage if user is logged in
+            navigate('/');
         }
     }, [user, navigate]);
 
+    // Get the role from the URL query parameters
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const roleParam = params.get('role');
@@ -37,30 +36,32 @@ const Register = () => {
         }
     }, [location]);
 
-    // Handle change in select dropdown
-    const handleRoleChange = (event) => {
-        setUserRole(event.target.value);
-    };
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
+    const handleRoleChange = (e) => {
+        setUserRole(e.target.value);
+    };
+
     const handleRegister = async (e) => {
         e.preventDefault();
-        setLoading(true); // Start loading
-        setError(null); // Clear previous errors
+        setFormData(true);
+        setError(null);
         try {
-            const result = await registerUser(formData.name, formData.email, formData.password, userRole);
-            // Redirect user after successful registration
-            navigate('/'); // Redirect to homepage (or any other page you want after registration)
+            await registerUser(formData.name, formData.email, formData.password, userRole);
+            navigate('/');
         } catch (err) {
-            setError(err.message); // Handle error
+            setError(err.message);
         } finally {
-            setLoading(false); // Stop loading
+            setFormData(false);
         }
     };
+
+    if(loading) {
+        return (<h1>checks...</h1>)
+    }
 
     return (
         <div className={styles.formContainer}>
@@ -68,73 +69,30 @@ const Register = () => {
                 <h2 className={styles.heading}>Sign Up</h2>
                 <form onSubmit={handleRegister} className={styles.form}>
                     <div className={styles.formInputs}>
-                        <div className={styles.formRow}>
-                            <label>*First Name: <input type="text" placeholder="First Name" /></label>
-                            <label>*Last Name: <input type="text" placeholder="Last Name" /></label>
-                        </div>
-                        <div className={styles.formRow}>
-                            <label>*Gender: <input type="text" placeholder="Gender" /></label>
-                            <label>*Organization Name: <input type="text" placeholder="Organization Name" /></label>
-                        </div>
-                        <div className={styles.formRow}>
-                            <label>*Email Address: <input type="text" placeholder="Email Address" /></label>
-                            <label>*Date of Birth: <input type="text" placeholder="Date of Birth" /></label>
-                        </div>
-                        <div className={styles.formRow}>
-                            <label>*Organization’s Address: <input type="text" placeholder="Organization’s Address" /></label>
-                            <label>*Phone Number: <input type="text" placeholder="Phone Number" /></label>
-                        </div>
-                        <div className={styles.formRow}>
-                            <label>*Country: <input type="text" placeholder="Country" /></label>
-                            <label>*Document (ID Card, Passport): <input type="text" placeholder="Document (ID Card, Passport)" /></label>
-                        </div>
+                        <label>Name:
+                            <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Full Name" required />
+                        </label>
+                        <label>Email Address:
+                            <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email Address" required />
+                        </label>
+                        <label>Password:
+                            <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" required />
+                        </label>
+                        <label>Role:
+                            <select value={userRole} onChange={handleRoleChange}>
+                                <option value="Adopter">Adopter</option>
+                                <option value="Organization">Organization</option>
+                            </select>
+                        </label>
                     </div>
-
-                    <button className='primary-btn'>Submit</button>
+                    {error && <p className={styles.error}>{error}</p>}
+                    <button className='primary-btn' type="submit" disabled={formLoading}>
+                        {formLoading ? 'Registering...' : 'Register'}
+                    </button>
                 </form>
             </div>
         </div>
     );
 };
-
-// const styles = {
-//     container: {
-//         maxWidth: '400px',
-//         margin: '50px auto',
-//         padding: '20px',
-//         border: '1px solid #ccc',
-//         borderRadius: '8px',
-//         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-//         backgroundColor: '#f9f9f9',
-//     },
-//     heading: {
-//         textAlign: 'center',
-//         color: '#333',
-//     },
-//     form: {
-//         display: 'flex',
-//         flexDirection: 'column',
-//     },
-//     label: {
-//         marginBottom: '15px',
-//         color: '#555',
-//     },
-//     input: {
-//         width: '100%',
-//         padding: '8px',
-//         margin: '5px 0',
-//         border: '1px solid #ccc',
-//         borderRadius: '4px',
-//     },
-//     button: {
-//         padding: '10px',
-//         backgroundColor: '#28a745',
-//         color: '#fff',
-//         border: 'none',
-//         borderRadius: '4px',
-//         cursor: 'pointer',
-//         fontSize: '16px',
-//     },
-// };
 
 export default Register;

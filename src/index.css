@@ -44,6 +44,11 @@ body {
   color: var(--primary);
   border: 1px solid var(--primary);
 }
+.primary-btn.no-hover:hover {
+  background-color: transparent !important;
+  color: white !important;
+  border: 1px solid white !important;
+}
 
 /* ARROW ICON */
 .arrow-icon{

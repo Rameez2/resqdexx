@@ -1,8 +1,9 @@
 import React, { useRef, useState,useEffect } from 'react';
 import PetCard from './PetCard';
 import styles from '../../../styles/home/petAvailable.module.css';
-import { getAllPets } from '../../../api/apiCalls';
+
 import Loader1 from '../../loaders/Loader1';
+import { getAllPets } from '../../../api/petsApi';
 
 const PetAvailable = () => {
     const scrollContainerRef = useRef(null);
