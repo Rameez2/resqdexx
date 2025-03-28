@@ -12,6 +12,7 @@ const PostUpload = ({ userData }) => {
       if(userData.status === "Approved") {
         await adopterPost({ id: userData.$id, content });
         setContent(""); // Clear input after submit
+        alert('Post Success!');
       }
       else {
         alert("Please verify before posting!")

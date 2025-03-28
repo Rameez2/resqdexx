@@ -114,7 +114,7 @@ export const fetchMyChats = async (userId) => {
         otherUserId: otherUserId,
         otherUserName: otherUser.name, // Assuming there's a 'name' field in users collection
         lastMessage: chat.last_message,
-        // lastMessageTime: chat.last_message_time,
+        lastMessageTime: chat.$createdAt,
       });
     }
     

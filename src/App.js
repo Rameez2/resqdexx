@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { UserProvider, useUser } from "./context/userContext";
 import Home from "./routes/Home";
 import About from "./routes/About";
@@ -16,6 +16,7 @@ import OrgPending from "./routes/OrgPending";
 import OrganizationQuestionnaire from "./components/pages/profile/organization/OrganizationQuestionnaire";
 import SearchAdopters from "./routes/SearchAdopters";
 import MoreDetails from "./components/pages/adminPanel/moreDetails/MoreDetails";
+import MessagesPage from "./components/pages/messages/MessagesPage";
 
 // Protected Route component
 const ProtectedRoute = ({ element, redirectTo }) => {
@@ -108,6 +109,14 @@ const App = () => {
             element={
               <ProtectedRoute element={
                 <OrgApprovedProtectedRoute element={<Profile />} redirectTo="/pending" />
+              } redirectTo="/login" />
+            }
+          />
+          <Route
+            path="/messages"
+            element={
+              <ProtectedRoute element={
+                <OrgApprovedProtectedRoute element={<MessagesPage />} redirectTo="/pending" />
               } redirectTo="/login" />
             }
           />

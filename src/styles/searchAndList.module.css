@@ -13,7 +13,7 @@
 }
 
 .filters > h2 {
-    margin: 0;
+    margin: 0 0 20px 0;
     font-size: 40px;
 }
 
@@ -30,14 +30,36 @@
 }
 
 .filterGroup > label {
-    font-size: 25px;
+    font-size: 20px;
+    font-weight: 400;
 }
 
 .filterGroup select,
 .sortBy select {
     width: 245px;
-    height: 30px;
+    height: 40px;
+    background-color: #F4F4F4;
+    border: none;
+    border-radius: 10px;
+    padding: 7px 10px;
+    font-size: 17px;
+    appearance: none; /* Remove default arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='22' height='22' fill='orange'><path d='M7 10l5 5 5-5H7z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 22px; /* Increase size */
+    cursor: pointer;
 }
+
+/* Fix for Firefox */
+.filterGroup select::-ms-expand,
+.sortBy select::-ms-expand {
+    display: none;
+}
+
+
 
 /* LISTING SIDE */
 /* .listingSide {

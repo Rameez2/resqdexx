@@ -123,26 +123,72 @@ export const getPetById = async (petId) => {
 
 }
 
+// SPONSOR
+
+export const addSponsorToPet = async (petId, paymentInfo,amount) => { 
+  try {
+    console.log('details in function',paymentInfo);
+    const details = [amount,paymentInfo.id,paymentInfo.payer.payer_id,paymentInfo.payer.email_address,paymentInfo.payer.name.given_name];
+    
+    paymentInfo = details.join(',');
+    // paymentInfo = ["MEWO MOEW MEOW"];
+    // paymentInfo= paymentInfo.join(',');
+      // Fetch the existing pet document
+      const petResponse = await databases.getDocument(
+          process.env.REACT_APP_DB_ID,      // Database ID
+          process.env.REACT_APP_ANIMALS_ID, // Animals Collection ID
+          petId                             // Document ID (Pet ID)
+      );
+
+      // Ensure total_donations is an array and push the new donation
+      const updatedDonations = Array.isArray(petResponse.total_donations) 
+          ? [...petResponse.total_donations, paymentInfo] 
+          : [paymentInfo];
+
+      // Update the document with the new donations array
+      await databases.updateDocument(
+          process.env.REACT_APP_DB_ID,
+          process.env.REACT_APP_ANIMALS_ID,
+          petId,
+          { total_donations: updatedDonations }
+      );
+
+      return true; // Success
+  } catch (error) {
+      console.error("Error adding sponsor donation:", error);
+      return false; // Handle errors gracefully
+  }
+};
+
+
 // PETS ACTIONS
 
 
 // GET MY UPLOADED PETS
 
-export const getAllPets = async () => {
+export const getPetsByFilter = async ( {numberOfPets, offset} ) => {
   try {
+    // Build query filters if parameters are provided
+    const queries = [];
+    if (numberOfPets !== undefined) {
+      queries.push(Query.limit(numberOfPets));
+    }
+    if (offset !== undefined) {
+      queries.push(Query.offset(offset));
+    }
 
-    // Step 4: Fetch all pets (no filter)
+    // Fetch pets with queries if provided, otherwise all pets
     const petsResponse = await databases.listDocuments(
-      process.env.REACT_APP_DB_ID,   // Database ID
+      process.env.REACT_APP_DB_ID,    // Database ID
       process.env.REACT_APP_ANIMALS_ID, // Animals Collection ID
+      queries
     );
-    // Step 5: Display the pets
-    const pets = petsResponse.documents;
-    console.log('ALL PETS:', pets);
     
-    // You can now update your state or UI with the fetched pets
+    const pets = petsResponse.documents;
+    console.log("ALL PETS:", pets);
     return pets;
   } catch (error) {
-    console.error('Error fetching pets:', error.message);
+    console.error("Error fetching pets:", error.message);
+    throw error;
   }
 };

@@ -47,6 +47,7 @@ const Register = () => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
+        setFormLoading(true);
         setFormData(true);
         setError(null);
         try {
@@ -56,6 +57,7 @@ const Register = () => {
             setError(err.message);
         } finally {
             setFormData(false);
+            setFormLoading(false);
         }
     };
 

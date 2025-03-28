@@ -75,13 +75,16 @@ const GeneralSettings = () => {
 
     return (
         <div className={styles.general}>
-            <h1>General Settings</h1>
+            {/* <h1>General Settings</h1> */}
             {loading ? (
                 <p>Loading...</p>
             ) : (
                 userData && (
                     <>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit} className={styles.formContainer}>
+
+                        <div className={styles.formInputsContainer}>
+
                             <div className={styles.inputGroup}>
                                 <label htmlFor="name">Name:</label>
                                 <input
@@ -104,10 +107,20 @@ const GeneralSettings = () => {
                                     required
                                 />
                             </div>
+
                             <div className={styles.inputGroup}>
-                                <label htmlFor="role">Role: {formData.role || ''}</label>
+                                <label htmlFor="role">Role:</label>
+                                <input
+                                    type="text"
+                                    id="role"
+                                    name="role"
+                                    value={formData.role || ''}
+                                    disabled
+                                />
                             </div>
+
                             <div className={styles.inputGroup}>
+                            <label htmlFor="role">Status:</label>
                                 {
                                     userData.status === "Apply" ? (
                                         <span onClick={handleOpenAdopter}>
@@ -175,6 +188,9 @@ const GeneralSettings = () => {
 
                             </div>
 
+                        </div>
+                           
+                        <div>
                             <button
                                 type="submit"
                                 className={`primary-btn ${!isModified ? styles.disabledBtn : ''}`}
@@ -182,6 +198,8 @@ const GeneralSettings = () => {
                             >
                                 Update
                             </button>
+
+                        </div>
 
                         </form>
 

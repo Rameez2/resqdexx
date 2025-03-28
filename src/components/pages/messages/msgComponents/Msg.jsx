@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { client } from "../../../api/appwrite";
-import { getMessages, sendMessage, fetchMyChats } from "../../../api/messagesApi";
-import { getCurrentUserData } from "../../../api/authApi";
-import styles from "../../../styles/profile/Msg.module.css";
-import MessagesSection from "./Messages/MessagesSection"; // Import the new component
+import { client } from "../../../../api/appwrite";
+import { getMessages, sendMessage, fetchMyChats } from "../../../../api/messagesApi";
+import { getCurrentUserData } from "../../../../api/authApi";
+import styles from "../../../../styles/messages/Msg.module.css";
+import MessagesSection from "./MessagesSection"; // Import the MessagesSection component
+import ChatList from "./ChatList"; // Import the new ChatList component
 
 const Msg = ({ adopterInfo }) => {
   const [msg, setMsg] = useState("");
@@ -15,8 +16,6 @@ const Msg = ({ adopterInfo }) => {
   const [recieverId, setRecieverId] = useState("");
   const [recieverName, setRecieverName] = useState("");
   const [messageSending, setMessageSending] = useState(false);
-
-  // console.log("got adopter info", adopterInfo);
 
   // If adopterInfo exists (i.e. redirected from search page), set receiver info accordingly
   useEffect(() => {
@@ -32,6 +31,7 @@ const Msg = ({ adopterInfo }) => {
         setUserLoading(true);
         const currentUser = await getCurrentUserData();
         const userChats = await fetchMyChats(currentUser.$id);
+        
         setUser(currentUser);
         setChatList(userChats);
       } catch (error) {
@@ -88,6 +88,7 @@ const Msg = ({ adopterInfo }) => {
         // Optimistically add the new message to the list
         setMsgList((prevMessages) => [newMessage, ...prevMessages]);
         setMessageSending(true);
+        updateChat(recieverId,msg);
         await sendMessage(user.$id, recieverId, msg);
       } else {
         console.log("Please select a recipient!");
@@ -106,29 +107,32 @@ const Msg = ({ adopterInfo }) => {
     setRecieverName(otherUserName);
   };
 
+  function updateChat() {
+    setChatList((prevChatList) => {
+      // Find the chat with the recieverId and remove it from the list
+      const updatedChatList = prevChatList.filter(chat => chat.otherUserId !== recieverId);
+      
+      // Create a new chat object for the receiver (or update if it already exists)
+      const updatedChat = {
+        otherUserId: recieverId,
+        otherUserName: recieverName,
+        lastMessage: msg,
+        lastMessageTime: new Date().toISOString(), // Update the timestamp
+      };
+  
+      // Add the updated chat to the top
+      return [updatedChat, ...updatedChatList];
+    });
+  }
+
   if (userLoading) {
     return <p className={styles.userLoader}>Fetching user data...</p>;
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles.searchAndChats}>
-        <div className={styles.searchContainer}>
-          <input type="text" placeholder="Search chats..." />
-        </div>
-        {chatList.length ? (
-          <div className={styles.chatInfo}>
-            {chatList.map((chat) => (
-              <div key={chat.otherUserId}>
-                <span onClick={() => handleReceiverChange(chat.otherUserId, chat.otherUserName)}>
-                  {chat.otherUserName}
-                </span>
-                <span>{chat.lastMessage}</span>
-              </div>
-            ))}
-          </div>
-        ) : null}
-      </div>
+      {/* Chat List (including search) */}
+      <ChatList chatList={chatList} handleReceiverChange={handleReceiverChange} />
 
       {/* Use the extracted MessagesSection component */}
       <MessagesSection
@@ -139,6 +143,7 @@ const Msg = ({ adopterInfo }) => {
         loading={loading}
         user={user}
         recieverName={recieverName}
+        updateChat={updateChat}
       />
     </div>
   );

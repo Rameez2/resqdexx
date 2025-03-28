@@ -16,18 +16,59 @@ const initialState = {
   references: ["", ""],
 };
 
+// ----------------- PLACEHOLDERS OBJECT -----------------
+const placeholders = {
+  personal_info: [
+    "Enter your first name",
+    "Enter your last name",
+    "Enter your email address",
+    "Enter your phone number",
+    "Enter your residential address",
+  ],
+  additional_info: "Enter any additional information about yourself",
+  household_info: [
+    "Enter household detail 1",
+    "Enter household detail 2",
+    "Enter household detail 3",
+    "Enter household detail 4",
+  ],
+  experience_with_pets: [
+    "Describe your experience with pets 1",
+    "Describe your experience with pets 2",
+    "Describe your experience with pets 3",
+  ],
+  adoption_intentions: [
+    "What are your adoption intentions 1",
+    "What are your adoption intentions 2",
+    "What are your adoption intentions 3",
+  ],
+  lifestyle_commitment: [
+    "Describe your lifestyle commitment 1",
+    "Describe your lifestyle commitment 2",
+    "Describe your lifestyle commitment 3",
+    "Describe your lifestyle commitment 4",
+    "Describe your lifestyle commitment 5",
+  ],
+  financial_considerations: [
+    "Enter financial consideration 1",
+    "Enter financial consideration 2",
+  ],
+  references: [
+    "Enter reference detail 1",
+    "Enter reference detail 2",
+  ],
+};
+
 // ----------------- REDUCER -----------------
 const formReducer = (state, action) => {
   const { field, value, index } = action;
 
   if (Array.isArray(state[field])) {
-    // It's an array field → update the specific index
     const updatedArray = [...state[field]];
     updatedArray[index] = value;
     return { ...state, [field]: updatedArray };
   }
 
-  // Otherwise a single string field
   return { ...state, [field]: value };
 };
 
@@ -41,122 +82,51 @@ const formReducer = (state, action) => {
  */
 const AdopterQuestionnaire = ({ isOpen, onClose, existingDocId, onSubmit }) => {
   const [formData, dispatch] = useReducer(formReducer, initialState);
-  const [submitLoading,submitFormLoading] = useState(false);
-  // const [loading,setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
 
-  // 1. Populate form with existing doc data when modal opens
-  // useEffect(() => {
-  //   if (isOpen && existingDocId) {
-  //     // Fetch the doc
-  //     getOrgAdopDataById(existingDocId)
-  //       .then((doc) => {
-  //         // personal_info (array of 5)
-  //         if (Array.isArray(doc.personal_info)) {
-  //           doc.personal_info.forEach((val, i) => {
-  //             dispatch({ field: "personal_info", value: val, index: i });
-  //           });
-  //         }
-  //         // additional_info (single string)
-  //         if (typeof doc.additional_info === "string") {
-  //           dispatch({ field: "additional_info", value: doc.additional_info });
-  //         }
-
-  //         // household_info (4)
-  //         if (Array.isArray(doc.household_info)) {
-  //           doc.household_info.forEach((val, i) => {
-  //             dispatch({ field: "household_info", value: val, index: i });
-  //           });
-  //         }
-
-  //         // experience_with_pets (3)
-  //         if (Array.isArray(doc.experience_with_pets)) {
-  //           doc.experience_with_pets.forEach((val, i) => {
-  //             dispatch({ field: "experience_with_pets", value: val, index: i });
-  //           });
-  //         }
-
-  //         // adoption_intentions (3)
-  //         if (Array.isArray(doc.adoption_intentions)) {
-  //           doc.adoption_intentions.forEach((val, i) => {
-  //             dispatch({ field: "adoption_intentions", value: val, index: i });
-  //           });
-  //         }
-
-  //         // lifestyle_commitment (5)
-  //         if (Array.isArray(doc.lifestyle_commitment)) {
-  //           doc.lifestyle_commitment.forEach((val, i) => {
-  //             dispatch({ field: "lifestyle_commitment", value: val, index: i });
-  //           });
-  //         }
-
-  //         // financial_considerations (2)
-  //         if (Array.isArray(doc.financial_considerations)) {
-  //           doc.financial_considerations.forEach((val, i) => {
-  //             dispatch({ field: "financial_considerations", value: val, index: i });
-  //           });
-  //         }
-
-  //         // references (2)
-  //         if (Array.isArray(doc.references)) {
-  //           doc.references.forEach((val, i) => {
-  //             dispatch({ field: "references", value: val, index: i });
-  //           });
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.error("Error fetching doc:", err);
-  //       }).finally(() => {
-  //         setLoading(false)
-  //       })
-  //   }
-  // }, [isOpen, existingDocId]);
-  // 2. is not open dont render
+  // If modal is not open, do not render
   if (!isOpen) return null;
 
-  // 3. Handler for updating fields
+  // Handler for updating fields
   const handleChange = (field, value, index = null) => {
     dispatch({ field, value, index });
   };
 
-  // 4. Handle form submission
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      submitFormLoading(true);
+      setSubmitLoading(true);
       const updatedDoc = await updateRecord(existingDocId, formData, "adopter");
       console.log("Adopter record updated:", updatedDoc);
-
+      alert('Form Submit Success');
       if (onSubmit) onSubmit(updatedDoc);
       // Optionally close modal on success:
       // onClose();
     } catch (error) {
       console.error("Error updating the record:", error);
-    }
-    finally {
-      submitFormLoading(false);
+    } finally {
+      setSubmitLoading(false);
     }
   };
 
-  // 5. Inline style (optional)
-  const styles = {
-    mainContainer: {
-      backgroundColor: "white",
-      borderRadius: "10px",
-      overflow: "hidden",
-      padding: "5px",
-      width: "-webkit-fill-available",
-      height: "fit-content",
-      margin: "10px",
-    },
+  // Inline style (optional)
+  const modalContainerStyle = {
+    backgroundColor: "white",
+    borderRadius: "10px",
+    overflow: "hidden",
+    padding: "5px",
+    width: "100%",
+    maxWidth: "800px",
+    height: "fit-content",
+    margin: "10px",
   };
-
-  // if(loading) return <h1>Loading Form...</h1>;
 
   // ----------------- RENDER (MODAL) -----------------
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-      style={styles.mainContainer}
+      style={modalContainerStyle}
     >
       {/* Modal Container */}
       <div className="relative bg-white w-full max-w-2xl p-6 rounded-md shadow-lg">
@@ -177,7 +147,10 @@ const AdopterQuestionnaire = ({ isOpen, onClose, existingDocId, onSubmit }) => {
           {/* personal_info → 5 inputs */}
           <PersonalInformation
             data={formData.personal_info}
-            onChange={(idx, newValue) => handleChange("personal_info", newValue, idx)}
+            placeholders={placeholders.personal_info}
+            onChange={(idx, newValue) =>
+              handleChange("personal_info", newValue, idx)
+            }
           />
 
           {/* additional_info → single textarea */}
@@ -185,6 +158,7 @@ const AdopterQuestionnaire = ({ isOpen, onClose, existingDocId, onSubmit }) => {
             <TextArea
               value={formData.additional_info}
               onChange={(e) => handleChange("additional_info", e.target.value)}
+              placeholder={placeholders.additional_info}
             />
           </FormSection>
 
@@ -194,7 +168,10 @@ const AdopterQuestionnaire = ({ isOpen, onClose, existingDocId, onSubmit }) => {
               <TextField
                 key={idx}
                 value={val}
-                onChange={(e) => handleChange("household_info", e.target.value, idx)}
+                onChange={(e) =>
+                  handleChange("household_info", e.target.value, idx)
+                }
+                placeholder={placeholders.household_info[idx]}
               />
             ))}
           </FormSection>
@@ -205,7 +182,10 @@ const AdopterQuestionnaire = ({ isOpen, onClose, existingDocId, onSubmit }) => {
               <TextField
                 key={idx}
                 value={val}
-                onChange={(e) => handleChange("experience_with_pets", e.target.value, idx)}
+                onChange={(e) =>
+                  handleChange("experience_with_pets", e.target.value, idx)
+                }
+                placeholder={placeholders.experience_with_pets[idx]}
               />
             ))}
           </FormSection>
@@ -216,7 +196,10 @@ const AdopterQuestionnaire = ({ isOpen, onClose, existingDocId, onSubmit }) => {
               <TextField
                 key={idx}
                 value={val}
-                onChange={(e) => handleChange("adoption_intentions", e.target.value, idx)}
+                onChange={(e) =>
+                  handleChange("adoption_intentions", e.target.value, idx)
+                }
+                placeholder={placeholders.adoption_intentions[idx]}
               />
             ))}
           </FormSection>
@@ -227,7 +210,10 @@ const AdopterQuestionnaire = ({ isOpen, onClose, existingDocId, onSubmit }) => {
               <TextField
                 key={idx}
                 value={val}
-                onChange={(e) => handleChange("lifestyle_commitment", e.target.value, idx)}
+                onChange={(e) =>
+                  handleChange("lifestyle_commitment", e.target.value, idx)
+                }
+                placeholder={placeholders.lifestyle_commitment[idx]}
               />
             ))}
           </FormSection>
@@ -238,7 +224,10 @@ const AdopterQuestionnaire = ({ isOpen, onClose, existingDocId, onSubmit }) => {
               <TextField
                 key={idx}
                 value={val}
-                onChange={(e) => handleChange("financial_considerations", e.target.value, idx)}
+                onChange={(e) =>
+                  handleChange("financial_considerations", e.target.value, idx)
+                }
+                placeholder={placeholders.financial_considerations[idx]}
               />
             ))}
           </FormSection>
@@ -249,7 +238,10 @@ const AdopterQuestionnaire = ({ isOpen, onClose, existingDocId, onSubmit }) => {
               <TextField
                 key={idx}
                 value={val}
-                onChange={(e) => handleChange("references", e.target.value, idx)}
+                onChange={(e) =>
+                  handleChange("references", e.target.value, idx)
+                }
+                placeholder={placeholders.references[idx]}
               />
             ))}
           </FormSection>
@@ -259,7 +251,7 @@ const AdopterQuestionnaire = ({ isOpen, onClose, existingDocId, onSubmit }) => {
             type="submit"
             className="w-full py-3 text-white bg-blue-600 rounded-md font-semibold hover:bg-blue-700 transition"
           >
-            {submitLoading ? 'please wait...' : 'Submit'}
+            {submitLoading ? "please wait..." : "Submit"}
           </button>
         </form>
       </div>
@@ -275,21 +267,23 @@ const FormSection = ({ title, children }) => (
   </div>
 );
 
-const TextField = ({ value, onChange }) => (
+const TextField = ({ value, onChange, placeholder }) => (
   <input
     type="text"
     className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-300 transition"
     value={value}
     onChange={onChange}
+    placeholder={placeholder}
   />
 );
 
-const TextArea = ({ value, onChange }) => (
+const TextArea = ({ value, onChange, placeholder }) => (
   <textarea
     rows={3}
     className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-300 transition"
     value={value}
     onChange={onChange}
+    placeholder={placeholder}
   />
 );
 

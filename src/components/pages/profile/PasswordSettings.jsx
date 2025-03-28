@@ -52,7 +52,7 @@ const PasswordSettings = ({ userId }) => {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.header}>Change Password {userId}</h1>
+            {/* <h1 className={styles.header}>Change Password for {userId}</h1> */}
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
                     <label htmlFor="currentPassword">Current Password</label>

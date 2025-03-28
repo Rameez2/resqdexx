@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { adminDeletePetById } from "../../../api/adminApi";
-import { getAllPets } from "../../../api/petsApi";
+import { getPetsByFilter } from "../../../api/petsApi";
+import { storage } from "../../../api/appwrite";
 
 const PetsList = () => {
     const [pets, setPets] = useState([]);
@@ -12,7 +13,7 @@ const PetsList = () => {
     useEffect(() => {
         const fetchPets = async () => {
             try {
-                const data = await getAllPets();
+                const data = await getPetsByFilter();
                 setPets(data);
             } catch (err) {
                 setError("Failed to fetch pets.");
@@ -85,8 +86,8 @@ const PetsList = () => {
                                 backgroundColor: index % 2 === 0 ? "#f9f9f9" : "#fff"
                             }}
                         >
+                            <img src={ storage.getFileView('6799fb94000edc47b27d', pet.main_image)} style={{width:'100px',height:'70px',objectFit:'cover'}} alt="" />
                             <span>{index + 1}. {pet.name} (ID: {pet.$id})</span>
-
                             {/* Delete Button */}
                             <button
                                 onClick={() => deletePet(pet.$id)}

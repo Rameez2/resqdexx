@@ -39,8 +39,17 @@ export const getRandomAdopters = async (count) => {
 export const searchPetByName = async (petName) => {
     console.log('Pet Name:',petName);
     try {
-        
-    } catch (error) {
-        
-    }
+        const response = await databases.listDocuments(
+          process.env.REACT_APP_DB_ID,                // Your Database ID
+          process.env.REACT_APP_ANIMALS_ID,             // Your Pet Collection ID
+          [
+            Query.search("name", petName)            // Search the "name" field
+          ]
+        );
+        console.log('searched', response.documents);
+        return response.documents;
+      } catch (error) {
+        console.error("Error searching for adopter by name:", error);
+        throw error;
+      }
 }

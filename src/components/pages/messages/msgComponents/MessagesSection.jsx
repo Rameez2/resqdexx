@@ -1,10 +1,13 @@
 import React from "react";
-import styles from "../../../../styles/profile/Messages/msgContent.module.css";
+import styles from "../../../../styles/messages/msgContent.module.css";
 
 const MessagesSection = ({ msgList, msg, setMsg, sendMsg, loading, user,recieverName }) => {
   return (
     <div className={styles.messagesSection}>
+    <div className={styles.sectionTop}>
+      <img src="/static_images/about-cat.jpeg" style={{width:'50px',height:'50px',borderRadius:'50%'}} alt="" />
       <h1 className={styles.heading}> {recieverName}</h1>
+    </div>
 
       {/* {loading && <p className={styles.loading}>Loading messages...</p>} */}
 
@@ -27,7 +30,7 @@ const MessagesSection = ({ msgList, msg, setMsg, sendMsg, loading, user,reciever
         )}
       </ul>
 
-      <form onSubmit={sendMsg} className={styles.form}>
+      <form onSubmit={sendMsg} className={styles.formContainer}>
         <input
           type="text"
           value={msg}

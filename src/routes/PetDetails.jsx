@@ -4,6 +4,9 @@ import styles from '../styles/petDetails.module.css';
 
 import { getUserById } from '../api/userApi';
 import { getPetById } from '../api/petsApi';
+import PetImages from '../components/pages/petDetails/PetImages';
+import StartInquiry from '../components/pages/petDetails/StartInquiry';
+import Sponsor from '../components/pages/petDetails/Sponsor';
 
 const PetDetails = () => {
   const { id } = useParams(); // Extract the dynamic ID from the URL
@@ -29,42 +32,13 @@ const PetDetails = () => {
     fetchPetDetails();
   }, [id]);
 
-  // Corrected startInquiry function using useNavigate
-  async function startInquiry(orgId) {
-    try {
-      console.log('org id,',orgId);
-      
-      const doc = await getUserById(orgId);
-      
-      navigate('/profile', { state: { adopterInfo: doc } });
-    } catch (error) {
-      console.error('Error starting inquiry:', error);
-    }
-  }
-
   if (loading) return <p>Loading...</p>;
   if (error) return <h1>NO PET FOUND</h1>;
 
   return (
     <div className={styles.petDetails}>
       <div className={styles.basicInfo}>
-        <div className={styles.imagesContainer}>
-          <div className={styles.mainImage}>
-            <div className={styles.arrowBtn}>
-              <button><i className="fa-solid fa-chevron-left"></i></button>
-            </div>
-            <div className={styles.arrowBtn}>
-              <button><i className="fa-solid fa-chevron-right"></i></button>
-            </div>
-            <img src="/static_images/card-dog.jpeg" alt="" />
-          </div>
-          <div className={styles.imageList}>
-            <img src="/static_images/card-dog.jpeg" alt="" />
-            <img src="/static_images/card-dog.jpeg" alt="" />
-            <img src="/static_images/card-dog.jpeg" alt="" />
-          </div>
-        </div>
-
+          <PetImages pet={petInfo}/>
         <div className={styles.basicInfoCard}>
           <img src="/static_images/card-dog.jpeg" alt="" />
           <h3>Considering {petInfo.name ? petInfo.name : ''} for adoption?</h3>
@@ -85,10 +59,9 @@ const PetDetails = () => {
             </div>
           </div>
           <div className={styles.infoButtons}>
-            <button className='primary-btn' onClick={() => startInquiry(petInfo.organization_id)}>
-              Start Inquiry
-            </button>
-            <button className='secondary-btn'>Add to Favorites</button>
+            <StartInquiry petInfo={petInfo}/>
+            {/* <button className='secondary-btn'>Sponsor</button> */}
+            <Sponsor petId={id}/>
           </div>
         </div>
       </div>
@@ -100,7 +73,8 @@ const PetDetails = () => {
             <p>
               <span style={{ color: "orange" }}>
                 {petInfo.name ? petInfo.name : ''}
-              </span> is a friendly 2-year-old Husky with striking blue eyes and a playful personality. He loves outdoor adventures and gets along well with kids and other pets. Munchy is ready to bring joy to his forever home!
+              </span>
+              {petInfo.bio}
             </p>
           </div>
           <hr />
@@ -160,7 +134,7 @@ const PetDetails = () => {
       </div>
       <div className={styles.rescueStory}>
         <h1>Rescue Story</h1>
-        <p>{petInfo.rescueStory ? petInfo.rescueStory : ''}</p>
+        <p>{petInfo.rescue_story ? petInfo.rescue_story : ''}</p>
       </div>
     </div>
   );

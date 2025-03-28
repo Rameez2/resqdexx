@@ -94,6 +94,7 @@ const OrganizationQuestionnaire = ({ existingDocId, onSubmit }) => {
     try {
       const updatedDoc = await updateRecord(user.more_info, formData, "organization");
       console.log("Organization record updated:", updatedDoc);
+      alert('Form Submit Success');
 
       if (onSubmit) onSubmit(updatedDoc);
     } catch (error) {

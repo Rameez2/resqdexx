@@ -3,7 +3,7 @@ import PetCard from './PetCard';
 import styles from '../../../styles/home/petAvailable.module.css';
 
 import Loader1 from '../../loaders/Loader1';
-import { getAllPets } from '../../../api/petsApi';
+import { getPetsByFilter } from '../../../api/petsApi';
 
 const PetAvailable = () => {
     const scrollContainerRef = useRef(null);
@@ -27,8 +27,9 @@ const PetAvailable = () => {
     useEffect(() => {
         (async () => {
             try {
-                const petsResponse = await getAllPets();
-                setPets(petsResponse);
+                const petsResponse = await getPetsByFilter();
+                const filteredPets = petsResponse.filter(pet => pet.post_by !== "Adopter")
+                setPets(filteredPets);
                 setLoading(false);
             } catch (error) {
                 console.log('Error while fetching pets',error.message);
@@ -64,6 +65,7 @@ const PetAvailable = () => {
                                 petName={pet.name}
                                 breedName={pet.breed}
                                 petId={pet.$id}
+                                imageId={pet.main_image}
                             />
                         )):
                         <h1>No pets Avaivalbe at the momemt!</h1>}

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { getCurrentUserData } from '../api/authApi';
 // import MyPets from '../components/pages/profile/MyPets';
 // import Loader1 from '../components/loaders/Loader1';
-import Msg from '../components/pages/profile/Msg';
+import Msg from '../components/pages/messages/msgComponents/Msg';
 import styles from '../styles/profile/profile.module.css';
 import GeneralSettings from '../components/pages/profile/generalSettings/GeneralSettings';
 import PasswordSettings from '../components/pages/profile/PasswordSettings';
@@ -93,7 +93,7 @@ const Profile = () => {
         {selectedOption === 'general' && <GeneralSettings />}
         {selectedOption === 'password' && <PasswordSettings userId={userData?.$id} />}
         {selectedOption === 'messages' && <Msg adopterInfo={adopterIdFromState} />}
-        {selectedOption === 'actions' && <Actions userId={userData?.$id}/>}
+        {selectedOption === 'actions' && <Actions user={userData}/>}
       </div>
     </div>
   );

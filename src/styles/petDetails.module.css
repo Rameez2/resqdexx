@@ -123,10 +123,11 @@
     display: flex;
     gap: 20px;
     background-color: #faf4f0;
-    width: fit-content;
+    width: 476px;
     padding: 10px 35px;
     border-radius: 20px;
     align-self: center;
+    overflow-x: auto;
 }
 .imageList > img {
     width: 150px;
@@ -148,7 +149,8 @@
     gap: 20px;
     justify-content: space-between;
     border-radius: 20px;
-    height: 260px;
+    /* height: 260px; */
+    height: fit-content;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
     min-width: 250px;
     margin-top: 50px;

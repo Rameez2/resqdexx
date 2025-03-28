@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteMyPet, getMyPets } from "../../../api/petsApi";
 import styles from "../../../styles/profile/myPets.module.css"; // 🔹 Import CSS file
+import { storage } from "../../../api/appwrite";
 
 const MyPets = () => {
     const [pets, setPets] = useState();
@@ -38,6 +39,7 @@ const MyPets = () => {
         }
     }
 
+
     return (
         <div className={styles.container}>
             <button className={styles.loadButton} onClick={showPets} disabled={loading}>
@@ -52,6 +54,7 @@ const MyPets = () => {
                     <thead>
                         <tr>
                             <th>#</th>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>ID</th>
                             <th>Actions</th>
@@ -61,6 +64,7 @@ const MyPets = () => {
                         {pets.map((pet, index) => (
                             <tr key={index}>
                                 <td>{index + 1}</td>
+                                <td><img src={storage.getFileView('6799fb94000edc47b27d', pet.main_image)} style={{width:'100px'}} alt="" /></td>
                                 <td>
                                 <Link to={`/pet-details/${pet.$id}`} >{pet.name}</Link>
                                 

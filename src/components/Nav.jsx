@@ -1,18 +1,10 @@
 import { Link } from 'react-router-dom';
 import styles from '../styles/nav.module.css';
 import { useUser } from '../context/userContext';
-import { Client, Functions, ID } from "appwrite";
-import { useState } from 'react';
-import { storage } from '../api/appwrite';
-import { generateJWT } from '../api/authApi';
-import { sendMessage } from '../api/messagesApi';
-
-
 
 const Nav = () => {
 
     let { user, logout } = useUser();
-    // const [pic,setPic] = useState(null);
 
     async function handleLogOut() {
         try {
@@ -23,33 +15,8 @@ const Nav = () => {
         }
     }
 
-
-    // async function handleSubmit(e) {
-    //     e.preventDefault();
-    //     if(pic != null) {
-    //         try {
-    //             console.log('upload start');
-    //             // REACT_APP_BUCKET_ID
-    //             let x = await storage.createFile(
-    //                 process.env.REACT_APP_BUCKET_ID,
-    //                 ID.unique(),
-    //                 pic
-    //             );
-    //             console.log(x);
-                
-    //         } catch (error) {
-    //             console.log('error while upload:',error.message);
-                
-    //         }
-    //     }
-    // }
-
-
- 
     return (
         <nav>
-            <button onClick={generateJWT}>Get JWT</button>
-            <button onClick={sendMessage}>Send Message</button>
 
             <div className={styles.navTop}>
                 <div className={styles.navLogo}>
@@ -64,6 +31,19 @@ const Nav = () => {
                 <div className={styles.navButtons}>
                     {user ?
                         <>
+                        <Link to="/messages"> 
+                        {/* <i class="fa-brands fa-rocketchat"></i> */}
+                            <i className="fa-brands fa-rocketchat"
+                                                            style={{
+                                    fontSize: '35px',
+                                    backgroundColor: 'orange',
+                                    color: 'white',
+                                    borderRadius: '8px',
+                                    padding: '5px',
+                                    cursor: 'pointer',
+                                }}
+                            ></i>
+                        </Link>
                             <Link to="/profile">        <i
                                 className="fa-solid fa-user"
                                 style={{
@@ -90,7 +70,7 @@ const Nav = () => {
                     }
                 </div>
             </div>
-            <div className={styles.navBottom}>
+            {/* <div className={styles.navBottom}>
                 <div className={styles.navBottomLinks}>
 
                     <select className={styles.navSelect} name="dogs" id="dogs">
@@ -128,7 +108,7 @@ const Nav = () => {
                     </Link>
                     }
                 </div>
-            </div>
+            </div> */}
         </nav>
     );
 }
