@@ -166,7 +166,7 @@ export const addSponsorToPet = async (petId, paymentInfo,amount) => {
 
 // GET MY UPLOADED PETS
 
-export const getPetsByFilter = async ( {numberOfPets, offset} ) => {
+export const getPetsByFilter = async (numberOfPets, offset ) => {
   try {
     // Build query filters if parameters are provided
     const queries = [];

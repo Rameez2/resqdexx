@@ -1,7 +1,6 @@
 .petBox{
-    width: 309px;
-    height: 348px;
-    aspect-ratio: 1/1;
+    min-width: 309px;
+    min-height: 348px;
     overflow: hidden;
     border-radius: 5px;
     position: relative;

@@ -20,7 +20,7 @@ const SearchAndList = () => {
   useEffect(() => {
     (async () => {
       try {
-        const petsResponse = await getPetsByFilter({numberOfPets:10,offset:1});
+        const petsResponse = await getPetsByFilter(10,1);
         setPets(petsResponse);
       } catch (error) {
         console.log("Error while fetching pets", error.message);
