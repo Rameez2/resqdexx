@@ -4,23 +4,27 @@ import styles from "../styles/searchAndList.module.css";
 import { useUser } from "../context/userContext";
 import { getPetsByFilter } from "../api/petsApi";
 import { searchPetByName } from "../api/searchingApi";
+import PetFilters from "../components/pages/searchAndList/PetFilters";
 
 const SearchAndList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [pets, setPets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filters,setFilters] = useState({
-    numberOfPets:10,
-    // offset:1
+  const [filters, setFilters] = useState({
+    breed: "",
+    specie: "",
+    age: "",
+    size: "",
+    gender: ""
   });
+  
   const { user } = useUser();
 
-  // Initial load: fetch pets (using filters: for example 10 pets starting from offset 1)
   useEffect(() => {
     (async () => {
       try {
-        const petsResponse = await getPetsByFilter(10,1);
+        const petsResponse = await getPetsByFilter(3,1); // limit,offset
         setPets(petsResponse);
       } catch (error) {
         console.log("Error while fetching pets", error.message);
@@ -31,8 +35,16 @@ const SearchAndList = () => {
     })();
   }, []);
 
+  const updateFilter = (field, value) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [field]: value
+    }));
+  };
+
   // Handler for search
-  const handleSearch = async () => {
+  const handleSearch = async (e) => {
+    e.preventDefault();
     try {
         if(searchTerm.trim() === "") {
             return;
@@ -41,7 +53,7 @@ const SearchAndList = () => {
       let petsResponse;
       if (searchTerm.trim() === "") {
         // If search is empty, fetch a default list of pets
-        petsResponse = await getPetsByFilter({ numberOfPets: 10, offset: 1 });
+        petsResponse = await getPetsByFilter({ numberOfPets: 3, offset: 1 });
       } else {
         // Otherwise, search pets by name
         petsResponse = await searchPetByName(searchTerm);
@@ -57,54 +69,8 @@ const SearchAndList = () => {
 
   return (
     <div className={styles.searchListContainer}>
-      <div className={styles.filters}>
-        <h2>Filters</h2>
-        <div className={styles.filtersContainer}>
-          <div className={styles.filterGroup}>
-            <label htmlFor="breed">Breed</label>
-            <select id="breed">
-              <option value="">All Breeds</option>
-              {/* Add breed options here */}
-            </select>
-          </div>
-          <div className={styles.filterGroup}>
-            <label htmlFor="specie">Specie</label>
-            <select id="specie">
-              <option value="">All Species</option>
-              {/* Add color options here */}
-            </select>
-          </div>
-          <div className={styles.filterGroup}>
-            <label htmlFor="age">Age</label>
-            <select id="age">
-              <option value="">All Ages</option>
-              {/* Add age options here */}
-            </select>
-          </div>
-          <div className={styles.filterGroup}>
-            <label htmlFor="size">Size</label>
-            <select id="size">
-              <option value="">All Sizes</option>
-              {/* Add size options here */}
-            </select>
-          </div>
-          <div className={styles.filterGroup}>
-            <label htmlFor="gender">Gender</label>
-            <select id="gender">
-              <option value="">All Genders</option>
-              {/* Add gender options here */}
-            </select>
-          </div>
 
-          <div className={styles.filterGroup}>
-            <label htmlFor="shelter-rescue">Shelter Or Rescue</label>
-            <select id="shelter-rescue">
-              <option value="">All Shelters</option>
-              {/* Add shelter/rescue options here */}
-            </select>
-          </div>
-        </div>
-      </div>
+      <PetFilters styles={styles} updateFilter={updateFilter}/>
 
       <div className={styles.listingSide}>
         <h1>Listing Of Animal Nearby</h1>
@@ -114,7 +80,7 @@ const SearchAndList = () => {
             <option value="newest">Newest</option>
           </select>
           {/* SEARCH */}
-          <div>
+          <form onSubmit={handleSearch}>
             <input
                 type="text"
                 name="search"
@@ -131,7 +97,7 @@ const SearchAndList = () => {
                 }}
             />
             <i className="fa-solid fa-magnifying-glass" style={{"cursor":"pointer"}} onClick={handleSearch}></i>
-          </div>
+          </form>
         </div>
 
         <div className={styles.petsListing}>

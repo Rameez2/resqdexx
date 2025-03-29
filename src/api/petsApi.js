@@ -166,10 +166,37 @@ export const addSponsorToPet = async (petId, paymentInfo,amount) => {
 
 // GET MY UPLOADED PETS
 
-export const getPetsByFilter = async (numberOfPets, offset ) => {
+// export const getPetsByFilter = async (numberOfPets, offset ) => {
+//   try {
+//     // Build query filters if parameters are provided
+//     const queries = [];
+//     if (numberOfPets !== undefined) {
+//       queries.push(Query.limit(numberOfPets));
+//     }
+//     if (offset !== undefined) {
+//       queries.push(Query.offset(offset));
+//     }
+
+//     // Fetch pets with queries if provided, otherwise all pets
+//     const petsResponse = await databases.listDocuments(
+//       process.env.REACT_APP_DB_ID,    // Database ID
+//       process.env.REACT_APP_ANIMALS_ID, // Animals Collection ID
+//       queries
+//     );
+    
+//     const pets = petsResponse.documents;
+//     console.log("ALL PETS:", pets);
+//     return pets;
+//   } catch (error) {
+//     console.error("Error fetching pets:", error.message);
+//     throw error;
+//   }
+// };
+
+export const getPetsByFilter = async (numberOfPets, offset, filters = {}) => {
   try {
-    // Build query filters if parameters are provided
     const queries = [];
+
     if (numberOfPets !== undefined) {
       queries.push(Query.limit(numberOfPets));
     }
@@ -177,15 +204,31 @@ export const getPetsByFilter = async (numberOfPets, offset ) => {
       queries.push(Query.offset(offset));
     }
 
-    // Fetch pets with queries if provided, otherwise all pets
+    // Apply filters dynamically (ignoring age and empty values)
+    if (filters.breed && filters.breed.trim() !== "") {
+      console.log('yes btreeed');
+      
+      queries.push(Query.equal("breed", filters.breed));
+    }
+    if (filters.specie && filters.specie.trim() !== "") {
+      queries.push(Query.equal("specie", filters.specie));
+    }
+    if (filters.size && filters.size.trim() !== "") {
+      queries.push(Query.equal("size", filters.size));
+    }
+    if (filters.gender && filters.gender.trim() !== "") {
+      queries.push(Query.equal("gender", filters.gender));
+    }
+
+    // Fetch pets with applied filters
     const petsResponse = await databases.listDocuments(
-      process.env.REACT_APP_DB_ID,    // Database ID
-      process.env.REACT_APP_ANIMALS_ID, // Animals Collection ID
+      process.env.REACT_APP_DB_ID,    
+      process.env.REACT_APP_ANIMALS_ID, 
       queries
     );
     
     const pets = petsResponse.documents;
-    console.log("ALL PETS:", pets);
+    console.log("Filtered Pets:", pets);
     return pets;
   } catch (error) {
     console.error("Error fetching pets:", error.message);
