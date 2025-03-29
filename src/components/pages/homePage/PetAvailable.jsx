@@ -4,6 +4,7 @@ import styles from '../../../styles/home/petAvailable.module.css';
 
 import Loader1 from '../../loaders/Loader1';
 import { getPetsByFilter } from '../../../api/petsApi';
+import PetCardSkeleton from '../../loaders/PetCardSkeleton';
 
 const PetAvailable = () => {
     const scrollContainerRef = useRef(null);
@@ -57,10 +58,20 @@ const PetAvailable = () => {
                 ref={scrollContainerRef}
                 className={styles.scrollContainer}
             >
-            {loading ? <Loader1/>: error ? <h1>Error : {error}</h1> : 
+            
+            {loading ? 
             <>
+                <PetCardSkeleton/>
+                <PetCardSkeleton/>
+                <PetCardSkeleton/>
+                <PetCardSkeleton/>
+                <PetCardSkeleton/>
+            </>
+            : error ? <h1>Error : {error}</h1> : 
+            <>
+                           
             {pets ? pets.map((pet, index) => (
-                            <PetCard
+                <PetCard
                                 key={index}
                                 petName={pet.name}
                                 breedName={pet.breed}

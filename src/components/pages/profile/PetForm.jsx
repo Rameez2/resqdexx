@@ -8,14 +8,14 @@ import { ID } from 'appwrite';
 const PetForm = ({ user, userId }) => {
   const [petInfo, setPetInfo] = useState({
     name: '',
-    age: '',
-    species: 'Others',
-    breed: '',
-    size: '',
-    temperament: '',
-    contact: '',
+    age: 3,
+    specie: 'Other',
+    breed: 'Persian',
+    size: 'Medium',
+    temperament: 'Friendly',
+    contact: '+92 3051088667',
     gender: 'Male',
-    location: '',
+    location: 'Peshawar, Pakistan',
     bio: '',
     rescue_story: '', // New field added
     images: [],
@@ -89,7 +89,7 @@ const PetForm = ({ user, userId }) => {
       setPetInfo({
         name: '',
         age: '',
-        species: 'Others',
+        specie: 'Other',
         breed: '',
         size: '',
         temperament: '',
@@ -131,9 +131,9 @@ const PetForm = ({ user, userId }) => {
             </div>
 
             <div className={styles.inputRow}>
-              <label>Category:</label>
-              <select name="species" value={petInfo.species} onChange={handleChange} required>
-                <option value="Others">Others</option>
+              <label>Specie:</label>
+              <select name="specie" value={petInfo.specie} onChange={handleChange} required>
+                <option value="Other">Other</option>
                 <option value="Dog">Dog</option>
                 <option value="Cat">Cat</option>
               </select>

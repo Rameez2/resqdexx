@@ -204,10 +204,9 @@ export const getPetsByFilter = async (numberOfPets, offset, filters = {}) => {
       queries.push(Query.offset(offset));
     }
 
+
     // Apply filters dynamically (ignoring age and empty values)
     if (filters.breed && filters.breed.trim() !== "") {
-      console.log('yes btreeed');
-      
       queries.push(Query.equal("breed", filters.breed));
     }
     if (filters.specie && filters.specie.trim() !== "") {
@@ -228,7 +227,7 @@ export const getPetsByFilter = async (numberOfPets, offset, filters = {}) => {
     );
     
     const pets = petsResponse.documents;
-    console.log("Filtered Pets:", pets);
+    // console.log("Filtered Pets:", pets);
     return pets;
   } catch (error) {
     console.error("Error fetching pets:", error.message);

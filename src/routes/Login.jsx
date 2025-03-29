@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useUser } from '../context/userContext';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/login.module.css';
+import ButtonLoader from '../components/loaders/ButtonLoader';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -82,7 +83,8 @@ const Login = () => {
                         type="submit" 
                         disabled={FormLoading}
                     >
-                        {FormLoading ? "Logging in..." : "Login"}
+                        {FormLoading ? "Logging in..." : <ButtonLoader loaderSize={30}/>}
+                        {/* {FormLoading ? "Logging in..." : "Login"} */}
                     </button>
                 </form>
             </div>

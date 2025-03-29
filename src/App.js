@@ -17,6 +17,8 @@ import OrganizationQuestionnaire from "./components/pages/profile/organization/O
 import SearchAdopters from "./routes/SearchAdopters";
 import MoreDetails from "./components/pages/adminPanel/moreDetails/MoreDetails";
 import MessagesPage from "./components/pages/messages/MessagesPage";
+import ContactUs from "./routes/ContactUs";
+import PageNotFound from "./routes/PageNotFound";
 
 // Protected Route component
 const ProtectedRoute = ({ element, redirectTo }) => {
@@ -89,6 +91,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/pet-details/:id" element={<PetDetails />} />
           <Route path="/animals-list" element={<SearchAndList />} />
           <Route path="/register" element={<Register />} />
@@ -145,6 +148,7 @@ const App = () => {
               <AdminProtectedRoute element={<MoreDetails />} redirectTo="/login" />
             }
           />
+          <Route path="*" element={<PageNotFound />} />
 
         </Routes>
         <Footer />

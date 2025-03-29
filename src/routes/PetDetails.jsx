@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from '../styles/petDetails.module.css';
-
-import { getUserById } from '../api/userApi';
 import { getPetById } from '../api/petsApi';
 import PetImages from '../components/pages/petDetails/PetImages';
 import StartInquiry from '../components/pages/petDetails/StartInquiry';
-import Sponsor from '../components/pages/petDetails/Sponsor';
 
 const PetDetails = () => {
   const { id } = useParams(); // Extract the dynamic ID from the URL
@@ -60,8 +57,7 @@ const PetDetails = () => {
           </div>
           <div className={styles.infoButtons}>
             <StartInquiry petInfo={petInfo}/>
-            {/* <button className='secondary-btn'>Sponsor</button> */}
-            <Sponsor petId={id}/>
+            <button className='secondary-btn'>Sponsor</button>
           </div>
         </div>
       </div>
@@ -108,25 +104,25 @@ const PetDetails = () => {
           <h1 style={{ color: "orange" }}>Personality and Traits</h1>
           <div>
             <span>
-              <strong>Temperament</strong>{petInfo.temperament ? petInfo.temperament : ''}
+              <strong>Temperament </strong>{petInfo.temperament ? petInfo.temperament : ''}
             </span>
             <progress id="file" value="32" max="100"> 32% </progress>
           </div>
           <div>
             <span>
-              <strong>Activity level</strong>{petInfo.temperament}
+              <strong>Activity level </strong>{petInfo.temperament}
             </span>
             <progress id="file" value="32" max="100"> 32% </progress>
           </div>
           <div>
             <span>
-              <strong>Special skills or quirks</strong>{petInfo.temperament}
+              <strong>Special skills or quirks </strong>{petInfo.temperament}
             </span>
             <progress id="file" value="32" max="100"> 32% </progress>
           </div>
           <div>
             <span>
-              <strong>Behavior</strong>{petInfo.temperament}
+              <strong>Behavior </strong>{petInfo.temperament}
             </span>
             <progress id="file" value="32" max="100"> 32% </progress>
           </div>

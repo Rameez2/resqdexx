@@ -109,11 +109,12 @@
 .arrowBtn > button{
     background-color: transparent;
     border: 2px solid black;
-    border-radius: 50%;
+    border-radius: 100%;
     padding: 10px;
     font-size: 20px;
     cursor: pointer;
     transition: 0.2s;
+    margin: 0px 10px;
 }
 .arrowBtn > button:hover {
         color: white;
@@ -131,7 +132,8 @@
 }
 .imageList > img {
     width: 150px;
-    height: 100px;
+    height: 120px;
+    aspect-ratio: 1/1;
     border-radius: 10px;
     object-fit: cover;
 }

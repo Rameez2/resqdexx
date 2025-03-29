@@ -1,0 +1,108 @@
+.container {
+    background-color: #FBF5F0;
+    width: 80%;
+    margin: 0 auto 25px auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.bannerContainer {
+    background-image: url('/public/static_images/contact-banner.jpeg'); /* Replace with actual image path */
+    background-size: cover;
+    background-position: center;
+    height: 35%; /* Adjust banner height */
+    align-items: center;
+    color: white; /* Ensure text is visible */
+}
+
+.bannerContainer > h1 {
+    margin: 46px 0 0 111px;
+    text-align: left;
+    font-size: 40px;
+    font-family: sans-serif;
+}
+
+.content {
+    flex: 1; /* Takes remaining space */
+    padding: 20px;
+}
+
+/* Content Container */
+.contentContainer {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    gap: 20px;
+    padding: 0 40px;
+    margin: 40px 0 0 0;
+}
+
+/* CONTACT INFO & CONTACT FORM */
+.infoContainer, .contactForm {
+    flex: 1;
+    max-width: 50%;
+}
+
+.infoContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    max-width: 300px;
+}
+.infoContainer > p {
+    margin-bottom: 8px;
+    color: #011334;
+}
+.infoGroup {
+    display: flex;
+    gap: 10px;
+}
+.infoGroup > i{
+    color: var(--primary);
+}
+.infoGroup > span{
+    font-weight: 600;
+}
+
+/* FORMM */
+.contactForm {
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    border-radius: 10px;
+    gap: 10px;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.contactForm > textarea {
+    font-size: 17px;
+    background-color: rgb(249, 249, 249);
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid rgb(130, 130, 130);
+    width: 395px;
+    height: 100px;
+    resize: vertical;
+}
+
+.namesDiv{
+    display: flex;
+    gap: 20px;
+}
+.namesDiv > input {
+    width: 174px;
+}
+
+.formInput {
+    font-size: 17px;
+    background-color: #F9F9F9;
+    color: #000000;
+    padding: 10px;
+    width: -webkit-fill-available;
+    border-radius: 10px;
+    border: 2px solid #828282;
+}

@@ -26,7 +26,7 @@ const Nav = () => {
                     <Link to="/">Home</Link>
                     <Link to="/about">About</Link>
                     <Link to="/animals-list">Animal Listing</Link>
-                    <Link to="/contact">Contact Us</Link>
+                    <Link to="/contact-us">Contact Us</Link>
                 </div>
                 <div className={styles.navButtons}>
                     {user ?
@@ -70,7 +70,7 @@ const Nav = () => {
                     }
                 </div>
             </div>
-            {/* <div className={styles.navBottom}>
+            <div className={styles.navBottom}>
                 <div className={styles.navBottomLinks}>
 
                     <select className={styles.navSelect} name="dogs" id="dogs">
@@ -108,7 +108,7 @@ const Nav = () => {
                     </Link>
                     }
                 </div>
-            </div> */}
+            </div>
         </nav>
     );
 }
