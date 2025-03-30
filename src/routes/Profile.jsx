@@ -12,13 +12,13 @@ import Actions from '../components/pages/profile/actions/Actions';
 const Profile = () => {
   const location = useLocation();
   // Check if an adopterId is passed in state
-  const adopterIdFromState = location.state?.adopterInfo;
+  // const adopterIdFromState = location.state?.adopterInfo;
   // Default to 'messages' if adopterId is present; otherwise default to 'general'
-  const initialOption = adopterIdFromState ? 'messages' : 'general';
+  // const initialOption = adopterIdFromState ? 'messages' : 'general';
 
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedOption, setSelectedOption] = useState(initialOption); // Default option
+  const [selectedOption, setSelectedOption] = useState('general'); // Default option
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -64,13 +64,13 @@ const Profile = () => {
             <p>Password</p>
           </div>
 
-          <div
+          {/* <div
             className={selectedOption === 'messages' ? styles.selectedOption : ''}
             onClick={() => handleOptionClick('messages')}
           >
             <i className="fa-solid fa-message"></i>
             <p>Messages</p>
-          </div>
+          </div> */}
 
           <div
             className={selectedOption === 'actions' ? styles.selectedOption : ''}
@@ -92,7 +92,7 @@ const Profile = () => {
         {/* Display different components based on the selected option */}
         {selectedOption === 'general' && <GeneralSettings />}
         {selectedOption === 'password' && <PasswordSettings userId={userData?.$id} />}
-        {selectedOption === 'messages' && <Msg adopterInfo={adopterIdFromState} />}
+        {/* {selectedOption === 'messages' && <Msg adopterInfo={adopterIdFromState} />} */}
         {selectedOption === 'actions' && <Actions user={userData}/>}
       </div>
     </div>

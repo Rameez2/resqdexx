@@ -31,7 +31,17 @@
 }
 
 .petTable th {
-    background-color: #f2f2f2;
+    background-color: #da971c;
+    color: white;
+}
+
+.petTable > tbody > tr:nth-child(odd) {
+    background-color: #f0a64363;
+}
+
+.petTable > tbody > tr:nth-child(even) {
+    background-color: #fdb75954;
+
 }
 
 .actions {
